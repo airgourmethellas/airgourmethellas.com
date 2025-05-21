@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Air Gourmet Hellas - Preview</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #1e40af;
+    }
+    
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .menu-item {
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+    
+    .menu-item-name {
+      font-weight: 600;
+    }
+    
+    .menu-item-qty {
+      color: #64748b;
+      font-size: 0.875rem;
+      margin: 0.25rem 0;
+    }
+    
+    .menu-item-price {
+      font-weight: 600;
+    }
+    
+    .summary {
+      background-color: #f8fafc;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 0.5rem;
+      margin-top: 0.5rem;
+      border-top: 1px solid #e2e8f0;
+      font-weight: 700;
+      font-size: 1.125rem;
+    }
+    
+    .logo {
+      max-width: 180px;
+      margin-bottom: 1rem;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .header-content {
+      margin-left: 1rem;
+    }
+    
+    .tagline {
+      color: #64748b;
+      font-size: 1.125rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="80" height="80" rx="40" fill="#1e40af"/>
+        <path d="M20 40 L60 40 M40 20 L40 60 M25 30 L55 50 M25 50 L55 30" stroke="white" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="header-content">
+      <h1>Air Gourmet Hellas</h1>
+      <p class="tagline">Premium Catering for Private Aviation</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Menu Preview with Correct Pricing</div>
+    
+    <div class="menu-item">
+      <div class="menu-item-name">Assorted bread rolls</div>
+      <div class="menu-item-qty">Quantity: 1</div>
+      <div class="menu-item-price">€3.00</div>
+    </div>
+    
+    <div class="menu-item">
+      <div class="menu-item-name">Sourdough bread</div>
+      <div class="menu-item-qty">Quantity: 1</div>
+      <div class="menu-item-price">€4.00</div>
+    </div>
+    
+    <div class="menu-item">
+      <div class="menu-item-name">Bagels</div>
+      <div class="menu-item-qty">Quantity: 1</div>
+      <div class="menu-item-price">€5.00</div>
+    </div>
+    
+    <div class="summary">
+      <div class="summary-row">
+        <div>Subtotal:</div>
+        <div>€12.00</div>
+      </div>
+      <div class="summary-row">
+        <div>Delivery Fee:</div>
+        <div>€150.00</div>
+      </div>
+      <div class="total-row">
+        <div>Total:</div>
+        <div>€162.00</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-title">Request an Invoice Preview</div>
+    <p>When you select "Request an Invoice", you'll receive:</p>
+    <ul>
+      <li>A confirmation message that your request has been received</li>
+      <li>An invoice sent to your company email address</li>
+      <li>A redirect to your order history page</li>
+    </ul>
+    <p><strong>Note:</strong> All prices are correctly displayed in euros (€) with proper decimal formatting, for example €3.00 instead of €300.00.</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air Gourmet Hellas - Price Preview</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      margin-bottom: 24px;
+      background-color: white;
+    }
+    .card-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .card-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .card-content {
+      padding: 24px;
+    }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .item:last-child {
+      border-bottom: none;
+    }
+    .item-details {
+      display: flex;
+      flex-direction: column;
+    }
+    .item-name {
+      font-weight: 500;
+    }
+    .item-quantity {
+      font-size: 14px;
+      color: #64748b;
+    }
+    .item-price {
+      font-weight: 500;
+    }
+    .subtotal {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 12px;
+      margin-top: 8px;
+      border-top: 1px solid #e2e8f0;
+      font-weight: 500;
+    }
+    .summary {
+      background-color: #f8fafc;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .summary-label {
+      font-weight: 500;
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 12px;
+      margin-top: 8px;
+      border-top: 1px solid #e2e8f0;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .policy {
+      background-color: #fff8e1;
+      border: 1px solid #ffe0b2;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .policy-title {
+      font-weight: 600;
+      color: #795548;
+      margin-bottom: 8px;
+    }
+    .policy-list {
+      list-style-type: disc;
+      padding-left: 24px;
+      margin: 0;
+      color: #795548;
+      font-size: 14px;
+    }
+    .policy-list li {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="card-title">Price Preview - Air Gourmet Hellas</h1>
+      </div>
+      <div class="card-content">
+        <h2>Order Items</h2>
+        <div class="card">
+          <div class="card-content">
+            <div class="item">
+              <div class="item-details">
+                <span class="item-name">Assorted bread rolls</span>
+                <span class="item-quantity">2 x €3.00</span>
+              </div>
+              <span class="item-price">€6.00</span>
+            </div>
+            <div class="item">
+              <div class="item-details">
+                <span class="item-name">Sourdough bread</span>
+                <span class="item-quantity">1 x €4.00</span>
+              </div>
+              <span class="item-price">€4.00</span>
+            </div>
+            <div class="item">
+              <div class="item-details">
+                <span class="item-name">Bagels</span>
+                <span class="item-quantity">1 x €5.00</span>
+              </div>
+              <span class="item-price">€5.00</span>
+            </div>
+            <div class="item">
+              <div class="item-details">
+                <span class="item-name">Greek sesame bagel</span>
+                <span class="item-quantity">1 x €3.50</span>
+              </div>
+              <span class="item-price">€3.50</span>
+            </div>
+            <div class="subtotal">
+              <span>Subtotal</span>
+              <span>€18.50</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary">
+          <div class="summary-row">
+            <span class="summary-label">Subtotal:</span>
+            <span>€18.50</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Delivery Fee:</span>
+            <span>€150.00</span>
+          </div>
+          <div class="total">
+            <span>Total:</span>
+            <span>€168.50</span>
+          </div>
+        </div>
+
+        <div class="policy">
+          <h3 class="policy-title">Cancellation Policy</h3>
+          <ul class="policy-list">
+            <li>Cancellations made 24+ hours before delivery: Full refund</li>
+            <li>Cancellations made 12-24 hours before delivery: 50% charge</li>
+            <li>Cancellations made less than 12 hours before delivery: Full charge</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

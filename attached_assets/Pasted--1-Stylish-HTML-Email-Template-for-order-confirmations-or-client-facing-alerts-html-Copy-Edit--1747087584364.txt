@@ -1,0 +1,58 @@
+✅ 1. Stylish HTML Email Template
+(for order confirmations or client-facing alerts)
+
+html
+Copy
+Edit
+<!-- Save this as a string inside your email-sending code -->
+<div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; border: 1px solid #eaeaea; padding: 20px; border-radius: 8px;">
+  <h2 style="color: #004080;">✈️ Air Gourmet Hellas</h2>
+  <p>Hello <strong>{{ClientName}}</strong>,</p>
+
+  <p>We have received your order for:</p>
+
+  <ul>
+    <li><strong>Flight:</strong> {{TailNumber}}</li>
+    <li><strong>Departure Date:</strong> {{FlightDate}}</li>
+    <li><strong>Passengers:</strong> {{PassengerCount}}</li>
+    <li><strong>Crew:</strong> {{CrewCount}}</li>
+  </ul>
+
+  <p>Your inflight catering is now being prepared with care by our team in <strong>{{Location}}</strong>.</p>
+
+  <p style="margin-top: 20px;">If you have any questions or last-minute changes, feel free to reply to this email or contact us at <a href="mailto:orders@airgourmet.gr">orders@airgourmet.gr</a>.</p>
+
+  <p style="margin-top: 30px;">Thank you for flying with Air Gourmet Hellas.<br>We look forward to delighting your passengers.</p>
+
+  <hr style="margin-top: 30px;">
+  <small style="color: #888;">This is an automated message from Air Gourmet Hellas | Thessaloniki & Mykonos</small>
+</div>
+You can inject variables like {{ClientName}} and {{FlightDate}} in your Node.js or Python code using simple string replacements or a templating engine like EJS or Handlebars.
+
+✅ 2. Notification System for Order Updates (Internal Use)
+Here’s a modular plan for notifying your internal team (kitchen, delivery, admin):
+
+🔔 Trigger Points:
+New order placed → Send email to kitchen & admin
+
+Order marked as ready → Notify delivery team
+
+Order delayed or canceled → Alert admin + manager
+
+📧 Example (New Order Notification for Kitchen):
+js
+Copy
+Edit
+resend.emails.send({
+  from: 'orders@airgourmet.gr',
+  to: 'kitchen@airgourmet.gr',
+  subject: '🚨 New Order Received – Air Gourmet',
+  html: `
+    <h3>New Order Submitted</h3>
+    <p><strong>Date:</strong> May 23, 2025</p>
+    <p><strong>Flight:</strong> N6CP</p>
+    <p><strong>Passengers:</strong> 12 | <strong>Crew:</strong> 5</p>
+    <p><strong>Delivery Time:</strong> 07:00 AM</p>
+    <p>Visit the dashboard to view full details.</p>
+  `
+});

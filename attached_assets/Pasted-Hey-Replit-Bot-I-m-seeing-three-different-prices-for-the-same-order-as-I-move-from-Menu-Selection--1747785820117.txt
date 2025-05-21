@@ -1,0 +1,41 @@
+Hey Replit Bot, I’m seeing three different prices for the same order as I move from Menu Selection → Review & Confirm → Final Confirmation. It looks like:
+
+1. Menu Selection is pulling prices from the Mykonos endpoint  
+2. Review & Confirm is pulling from the Thessaloniki endpoint  
+3. Final Confirmation is recalculating off stale state  
+
+Can you please:
+
+1. **Identify and consolidate the API endpoints**  
+   - Find every fetch/axios call that retrieves `price`, `priceCents`, or `deliveryFeeCents`  
+   - Confirm which base URL or path (Mykonos vs Thessaloniki) it’s using  
+
+2. **Unify to a single source of truth**  
+   - Create a shared service/module (e.g. `pricingService`) that always points at the correct location based on the user’s selected delivery airport  
+   - Replace all direct endpoint calls in components (`MenuSelection`, `SpecialRequests`, `ReviewConfirm`, `FinalPage`) with calls to this service  
+
+3. **Persist selected prices in app state**  
+   - Ensure selected line-item prices and fees are stored in your global state/context (or Redux store) immediately after Menu Selection  
+   - Remove any local re-fetches or re-calculations downstream that ignore this stored state  
+
+4. **Normalize and format once**  
+   - In the pricingService, normalize all values to integer cents on receipt  
+   - Expose a `getFormattedPrice(id)` function that returns `€xx.xx`  
+   - Have every UI component call only `pricingService.getFormattedPrice(orderId)`  
+
+5. **Write quick smoke tests or console-logs**  
+   - Add a console log in each major component that prints `pricingService.currentPricing()` so we can trace exactly where the value diverges  
+   - Verify that an item priced at €35.00 always prints as `35.00` on every page  
+
+6. **Rebuild & retest**  
+   - Re-run `npm run build` (or `replit run`), clear localStorage/state, and walk through an order for Mykonos vs Thessaloniki—confirm that every page now shows identical subtotals, fees, and totals.
+
+Thanks! This will ensure one consistent price flows from selection all the way through to confirmation.```
+
+—This will guide Replit to:
+
+- Centralize which endpoint you hit  
+- Store the prices once and pass them through your app’s state  
+- Normalize/fix the currency math in one place  
+- Verify with logs/tests  
+- Rebuild and confirm consistency across all pages.

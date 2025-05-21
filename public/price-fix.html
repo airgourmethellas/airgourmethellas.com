@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Air Gourmet Hellas - Price Conversion Demo</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #2563eb;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 10px;
+    }
+    .demo-container {
+      background-color: #f9fafb;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+    }
+    .price-input {
+      display: flex;
+      margin-bottom: 15px;
+      align-items: center;
+    }
+    .price-input input {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      margin-right: 10px;
+      width: 120px;
+    }
+    .price-input button {
+      padding: 8px 16px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #ecfdf5;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .code {
+      background-color: #f3f4f6;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Air Gourmet Hellas - Price Conversion Demo</h1>
+  
+  <div class="demo-container">
+    <h2>Price Conversion Calculator</h2>
+    <p>This demo helps illustrate how price values stored in the database (as cents) should be displayed to users (as euros with decimal points).</p>
+    
+    <div class="price-input">
+      <input type="number" id="price-input" placeholder="Enter price in cents">
+      <button onclick="convertPrice()">Convert to Euros</button>
+    </div>
+    
+    <div id="result" class="result" style="display: none;"></div>
+  </div>
+
+  <h2>Common Menu Item Prices</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Menu Item</th>
+        <th>Stored as (cents)</th>
+        <th>Should display as (euros)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Assorted bread rolls</td>
+        <td>300</td>
+        <td>€3.00</td>
+      </tr>
+      <tr>
+        <td>Bagels</td>
+        <td>500</td>
+        <td>€5.00</td>
+      </tr>
+      <tr>
+        <td>Greek sesame bagel</td>
+        <td>350</td>
+        <td>€3.50</td>
+      </tr>
+      <tr>
+        <td>Premium Greek salad</td>
+        <td>1200</td>
+        <td>€12.00</td>
+      </tr>
+      <tr>
+        <td>Delivery Fee</td>
+        <td>15000</td>
+        <td>€150.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>The Price Formatter Utility</h2>
+  <p>The application includes a price formatter utility that properly converts prices from cents (database) to euros (display):</p>
+  
+  <div class="code">
+/**
+ * Convert cents to euros (without formatting)
+ */
+export function centsToEuros(cents: number): number {
+  return cents / 100;
+}
+
+/**
+ * Format a price in cents to a euros string with 2 decimal places
+ */
+export function formatPrice(cents: number): string {
+  const euros = centsToEuros(cents);
+  return euros.toFixed(2);
+}
+
+/**
+ * Format a price in cents to a euros string with the € symbol
+ */
+export function formatPriceWithSymbol(cents: number): string {
+  return `€${formatPrice(cents)}`;
+}
+  </div>
+
+  <h2>How to Use the Price Formatter</h2>
+  <p>When displaying menu item prices, always use the formatter utility:</p>
+  
+  <div class="code">
+// WRONG - Directly displaying the value:
+{item.price} // Shows 300 instead of 3.00
+
+// WRONG - Formatting without converting:
+€{item.price.toFixed(2)} // Shows €300.00 instead of €3.00
+
+// CORRECT - Using the formatter:
+{formatPriceWithSymbol(item.price)} // Shows €3.00
+  </div>
+
+  <script>
+    function convertPrice() {
+      const priceInput = document.getElementById('price-input');
+      const resultDiv = document.getElementById('result');
+      
+      const cents = parseInt(priceInput.value);
+      if (!isNaN(cents)) {
+        const euros = (cents / 100).toFixed(2);
+        resultDiv.innerHTML = `<strong>${cents} cents</strong> is equivalent to <strong>€${euros}</strong>`;
+        resultDiv.style.display = 'block';
+      } else {
+        resultDiv.innerHTML = 'Please enter a valid number';
+        resultDiv.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

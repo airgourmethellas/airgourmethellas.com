@@ -1,0 +1,46 @@
+1. [vite] connecting… DOMException {}
+What it is: Vite’s hot-module-reload client failing to open its EventSource/WebSocket.
+
+Impact: Just your live-reload in dev, not your payment flow. You can safely ignore this for now.
+
+2. Failed to load Stripe.js
+What it is: Your code is trying to call Stripe(…) before the Stripe client library has been loaded.
+
+Impact: Any call to stripe.redirectToCheckout(…) or similar will throw, so even if you did authenticate, Stripe wouldn’t work yet.
+
+Fix: In your HTML (usually index.html), add at the top of your <head>:
+
+html
+Copy
+Edit
+<script src="https://js.stripe.com/v3/"></script>
+and then only run your const stripe = Stripe(…) code after that script tag has loaded.
+
+3. Response status for /api/user: 401
+What it is: Your front-end is calling /api/user with credentials: 'include' but the server is rejecting you as “Unauthorized.” You can see in the response headers that there’s no set-cookie happening, so you never actually get a session or token.
+
+Impact: Your auth guard sees user == null and redirects you back to login (or just leaves you stuck), so you never get to the payment page.
+
+Fix Checklist:
+
+Login flow—make sure your login endpoint actually sets a cookie (or returns a token) with the proper cookie flags (HttpOnly; Secure; SameSite=None if you’re on HTTPS across domains).
+
+CORS & credentials—on your backend CORS config, allow credentials:
+
+js
+Copy
+Edit
+app.use(cors({
+  origin: 'http://localhost:3000',   // or your frontend URL
+  credentials: true
+}))
+Fetch call—you already have credentials: 'include', so that’s correct. Just verify in DevTools under Application → Cookies that the session cookie actually appears after login.
+
+Test in isolation—use Postman or curl --cookie-jar cookies.txt + --cookie cookies.txt to ensure your backend will accept the cookie and return your user payload.
+
+Bottom line
+Stripe.js must be loaded before you call Stripe(…).
+
+Your login/session cookie is never being set (hence the 401 on /api/user), so your auth context stays empty.
+
+Once you fix the backend so that a successful login actually creates the cookie (and CORS allows it), /api/user will return 200 and your app can render the checkout page—and then Stripe will actually load and work

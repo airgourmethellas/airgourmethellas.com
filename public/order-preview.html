@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Air Gourmet Hellas - Order Preview</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      color: #333;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    header {
+      background-color: #1e40af;
+      color: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo {
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo svg {
+      width: 30px;
+      height: 30px;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    
+    .content {
+      padding: 20px;
+    }
+    
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 15px;
+      color: #1e40af;
+    }
+    
+    .card {
+      background-color: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .item:last-child {
+      border-bottom: none;
+    }
+    
+    .item-details {
+      flex: 1;
+    }
+    
+    .item-name {
+      font-weight: 600;
+    }
+    
+    .item-quantity {
+      color: #64748b;
+      font-size: 0.875rem;
+    }
+    
+    .item-notes {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-style: italic;
+    }
+    
+    .item-price {
+      font-weight: 600;
+      min-width: 80px;
+      text-align: right;
+    }
+    
+    .summary {
+      background-color: #f8fafc;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 8px;
+      margin-top: 8px;
+      border-top: 1px solid #e2e8f0;
+      font-weight: 700;
+    }
+    
+    .flight-details, .delivery-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .detail-row {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .detail-label {
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+    
+    .detail-value {
+      font-weight: 500;
+    }
+    
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .policy {
+      background-color: #fff7ed;
+      border: 1px solid #fdba74;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+    
+    .policy-title {
+      color: #9a3412;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .policy-list {
+      list-style-position: inside;
+      color: #7c2d12;
+      font-size: 0.875rem;
+    }
+    
+    .policy-list li {
+      margin-bottom: 5px;
+    }
+    
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .button {
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .button-primary {
+      background-color: #1e40af;
+      color: white;
+    }
+    
+    .button-outline {
+      background-color: white;
+      color: #1e40af;
+      border: 1px solid #1e40af;
+    }
+    
+    .notice {
+      background-color: #effaf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      color: #065f46;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4L3 9L12 14L21 9L12 4Z" stroke="#1e40af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3 14L12 19L21 14" stroke="#1e40af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Air Gourmet Hellas</h1>
+        <span>Order Preview</span>
+      </div>
+    </header>
+    
+    <div class="content">
+      <div class="notice">
+        <strong>Preview Page</strong>: This is a standalone preview showing properly formatted prices (€3.00 instead of €300.00).
+      </div>
+      
+      <div class="card">
+        <h3 class="section-title">Order Items</h3>
+        <div class="item">
+          <div class="item-details">
+            <div class="item-name">Assorted bread rolls</div>
+            <div class="item-quantity">Quantity: 2</div>
+          </div>
+          <div class="item-price">€6.00</div>
+        </div>
+        <div class="item">
+          <div class="item-details">
+            <div class="item-name">Greek yogurt with honey</div>
+            <div class="item-quantity">Quantity: 1</div>
+            <div class="item-notes">Note: Please include extra honey on the side</div>
+          </div>
+          <div class="item-price">€4.50</div>
+        </div>
+        <div class="item">
+          <div class="item-details">
+            <div class="item-name">Premium Greek salad</div>
+            <div class="item-quantity">Quantity: 2</div>
+            <div class="item-notes">Note: No onions please</div>
+          </div>
+          <div class="item-price">€24.00</div>
+        </div>
+        <div class="item">
+          <div class="item-details">
+            <div class="item-name">Beef fillet</div>
+            <div class="item-quantity">Quantity: 3</div>
+            <div class="item-notes">Note: Medium rare</div>
+          </div>
+          <div class="item-price">€75.00</div>
+        </div>
+        
+        <div class="summary">
+          <div class="summary-row">
+            <div>Subtotal:</div>
+            <div>€109.50</div>
+          </div>
+          <div class="summary-row">
+            <div>Delivery Fee:</div>
+            <div>€150.00</div>
+          </div>
+          <div class="total-row">
+            <div>Total:</div>
+            <div>€259.50</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3 class="section-title">Flight Details</h3>
+        <div class="flight-details">
+          <div class="detail-row">
+            <span class="detail-label">Company</span>
+            <span class="detail-value">SkyJet Aviation</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Registration</span>
+            <span class="detail-value">N12345</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Departure Date</span>
+            <span class="detail-value">2025-05-25</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Departure Time</span>
+            <span class="detail-value">14:30</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Departure Airport</span>
+            <span class="detail-value">SKG</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Arrival Airport</span>
+            <span class="detail-value">ATH</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Passengers</span>
+            <span class="detail-value">4</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Crew</span>
+            <span class="detail-value">2</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3 class="section-title">Delivery Information</h3>
+        <div class="delivery-details">
+          <div class="detail-row">
+            <span class="detail-label">Kitchen Location</span>
+            <span class="detail-value">Thessaloniki (SKG)</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Delivery Location</span>
+            <span class="detail-value">Terminal A, Gate 5</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Delivery Time</span>
+            <span class="detail-value">13:00</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Special Instructions</span>
+            <span class="detail-value">Please call 30 minutes before delivery</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="policy">
+        <h3 class="policy-title">Cancellation Policy</h3>
+        <ul class="policy-list">
+          <li>Cancellations made 24+ hours before delivery: Full refund</li>
+          <li>Cancellations made 12-24 hours before delivery: 50% charge</li>
+          <li>Cancellations made less than 12 hours before delivery: Full charge</li>
+          <li>No-shows will be charged the full amount</li>
+        </ul>
+      </div>
+      
+      <div class="buttons">
+        <button class="button button-outline">Back</button>
+        <div>
+          <button class="button button-outline" style="margin-right: 8px;">Request Invoice</button>
+          <button class="button button-primary">Pay with Card</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
