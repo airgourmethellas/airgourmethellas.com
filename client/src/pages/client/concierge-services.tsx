@@ -379,21 +379,7 @@ const ConciergeServicesPage: React.FC = () => {
                 </p>
               </div>
               
-              <div className="pt-4 border-t">
-                <p className="text-sm font-medium">
-                  {t('concierge.contact')}
-                </p>
-                <p className="text-sm mt-1 text-muted-foreground">
-                  <a href="mailto:concierge@airgourmethellas.com" className="text-primary underline">
-                    concierge@airgourmethellas.com
-                  </a>
-                </p>
-                <p className="text-sm mt-1 text-muted-foreground">
-                  <a href="tel:+306912345678" className="text-primary underline">
-                    +30 691 234 5678
-                  </a>
-                </p>
-              </div>
+
             </CardContent>
           </Card>
         </div>
