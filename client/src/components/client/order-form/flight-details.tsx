@@ -141,12 +141,12 @@ export default function FlightDetails({
 
             <FormField
               control={form.control}
-              name="tailNumber"
+              name="handlerCompany"
               render={({ field }) => (
                 <FormItem className="col-span-6 sm:col-span-3">
-                  <FormLabel>{t('order.tailNumber')}</FormLabel>
+                  <FormLabel>Handler Company</FormLabel>
                   <FormControl>
-                    <Input placeholder="N12345" {...field} />
+                    <Input placeholder="Swissport" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

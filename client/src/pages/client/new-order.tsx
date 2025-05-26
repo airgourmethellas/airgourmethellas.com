@@ -24,7 +24,7 @@ const STEPS = ["flight-details", "menu-selection", "special-requests", "review-c
 export type OrderFormData = {
   aircraftType: string;  // Keeping for backward compatibility
   companyName?: string;  // New field for company name
-  tailNumber: string;
+  handlerCompany: string;
   registrationNumber?: string;  // New field for aircraft registration
   departureDate: string;
   departureTime: string;
