@@ -14,7 +14,7 @@ import { useLanguage } from "@/hooks/use-language";
 // Define the flight details schema
 const flightDetailsSchema = z.object({
   companyName: z.string().min(1, "Company name is required"),
-  tailNumber: z.string().min(1, "Tail number is required"),
+  handlerCompany: z.string().min(1, "Handler company is required"),
   registrationNumber: z.string().min(1, "Registration number is required"),
   departureDate: z.string().min(1, "Departure date is required"),
   departureTime: z.string().min(1, "Departure time is required"),
@@ -52,7 +52,7 @@ export default function FlightDetails({
     resolver: zodResolver(flightDetailsSchema),
     defaultValues: {
       companyName: formData.aircraftType, // Using aircraftType field for backward compatibility
-      tailNumber: formData.tailNumber,
+      handlerCompany: formData.handlerCompany,
       registrationNumber: formData.registrationNumber || "",
       departureDate: formData.departureDate,
       departureTime: formData.departureTime,

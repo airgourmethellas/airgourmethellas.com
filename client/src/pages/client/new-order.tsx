@@ -57,7 +57,7 @@ export default function NewOrder() {
   const [formData, setFormData] = useState<OrderFormData>({
     aircraftType: "",
     companyName: "",
-    tailNumber: "",
+    handlerCompany: "",
     registrationNumber: "",
     departureDate: "",
     departureTime: "",
