@@ -293,7 +293,7 @@ export default function MenuSelection({
                       </div>
                       <div className="text-right">
                         <p className="font-semibold text-gray-900">
-                          €{formatPrice(formData.kitchenLocation === "Thessaloniki" ? item.priceThessaloniki : item.priceMykonos)}
+                          €{((formData.kitchenLocation === "Thessaloniki" ? item.priceThessaloniki : item.priceMykonos) / 100).toFixed(2)}
                         </p>
                         <p className="text-xs text-gray-500 mb-1">{item.unit || 'per item'}</p>
                         <Button
@@ -330,7 +330,7 @@ export default function MenuSelection({
                   <div>
                     <h4 className="font-medium text-gray-900">{item.name}</h4>
                     <p className="text-sm text-gray-500">
-                      {formatPrice(item.price)} each
+                      €{(item.price / 100).toFixed(2)} each
                     </p>
                   </div>
                   <div className="flex items-center space-x-2">
