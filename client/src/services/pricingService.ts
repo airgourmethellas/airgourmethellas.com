@@ -96,7 +96,7 @@ export function calculateSubtotal(items: OrderItem[]): number {
  * Get the delivery fee in cents based on kitchen location
  */
 export function getDeliveryFee(): number {
-  return currentKitchenLocation === "Mykonos" ? 15000 : 10000; // €150 or €100
+  return 15000; // €150 for both locations
 }
 
 /**

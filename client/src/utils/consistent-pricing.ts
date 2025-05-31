@@ -81,5 +81,5 @@ export function clearPriceCache(): void {
  * Return delivery fee based on location
  */
 export function getDeliveryFee(location: string): number {
-  return location === "Mykonos" ? 15000 : 10000; // €150 or €100
+  return 15000; // €150 for both locations
 }

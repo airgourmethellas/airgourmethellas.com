@@ -57,8 +57,8 @@ export default function ReviewConfirmSimple({
   
   console.log(`[ReviewConfirm] Calculated subtotal: ${subtotalInCents} cents`);
   
-  // Add delivery fee based on kitchen location (in cents)
-  const deliveryFeeInCents = formData.kitchenLocation === "Mykonos" ? 15000 : 10000; // €150 or €100
+  // Add delivery fee (€150 for both locations)
+  const deliveryFeeInCents = 15000; // €150 for both locations
   
   // Calculate total in cents
   const totalAmountInCents = subtotalInCents + deliveryFeeInCents;

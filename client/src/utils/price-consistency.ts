@@ -73,7 +73,7 @@ export function formatEuroPrice(cents: number): string {
  * Get delivery fee based on location
  */
 export function getDeliveryFee(location: string): number {
-  return location === "Mykonos" ? 15000 : 10000; // €150 or €100
+  return 15000; // €150 for both locations
 }
 
 /**

@@ -83,7 +83,7 @@ export function PricingProvider({ children }: { children: ReactNode }) {
   
   // Get delivery fee based on location
   const getDeliveryFee = (): number => {
-    return location === 'Mykonos' ? 15000 : 10000; // €150 or €100
+    return 15000; // €150 for both locations
   };
   
   // Calculate total with delivery fee

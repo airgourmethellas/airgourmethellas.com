@@ -99,7 +99,7 @@ export function useConsistentPricing(initialLocation = null, menuItemsData = nul
   
   // Get delivery fee based on location
   const getDeliveryFee = () => {
-    return priceState.location === "Mykonos" ? 15000 : 10000; // €150 or €100
+    return 15000; // €150 for both locations
   };
   
   // Calculate total with delivery fee
