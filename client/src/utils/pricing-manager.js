@@ -28,8 +28,8 @@ export function setKitchenLocation(location) {
   pricingState.kitchenLocation = location;
   console.log(`[PricingManager] Location set: ${location}`);
   
-  // Update delivery fee based on location
-  pricingState.deliveryFeeCents = location === "Mykonos" ? 15000 : 10000;
+  // Update delivery fee - €150 for both locations
+  pricingState.deliveryFeeCents = 15000; // €150 for both locations
   
   // Recalculate prices if we have items
   if (pricingState.selectedItems.length > 0 && pricingState.menuItems) {
