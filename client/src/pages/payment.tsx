@@ -29,7 +29,7 @@ export default function PaymentPage() {
     }
   }, [orderId, amount]);
   
-  // Parse the amount and ensure it's in euros
+  // Parse the amount - it's already in euros from the review page
   let amountNumber = amount ? parseFloat(amount) : 0;
   
   // For debugging
@@ -42,8 +42,8 @@ export default function PaymentPage() {
     amountNumber = 0;
   }
   
-  // Ensure amount is always in euros for display and calculations
-  const amountInEuros = ensureEuros(amountNumber);
+  // Amount is already in euros, no conversion needed
+  const amountInEuros = amountNumber;
   
   // Fetch order details
   const { data: order, isLoading: isOrderLoading } = useQuery<Order>({
