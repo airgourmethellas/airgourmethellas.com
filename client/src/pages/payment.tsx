@@ -120,7 +120,7 @@ export default function PaymentPage() {
                 </div>
                 <div className="flex justify-between font-medium text-lg">
                   <span>Total Amount:</span>
-                  <span>{smartFormatPrice(amountNumber)}</span>
+                  <span>€{amountNumber.toFixed(2)}</span>
                 </div>
               </div>
               
