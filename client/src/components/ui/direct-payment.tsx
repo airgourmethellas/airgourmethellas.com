@@ -146,7 +146,7 @@ const DirectPayment: React.FC<DirectPaymentProps> = ({
           <Check className="w-12 h-12 text-green-600 mb-4" />
           <h3 className="text-xl font-medium mb-2">Payment Successful</h3>
           <p className="text-gray-600 mb-2">
-            Thank you for your payment of {smartFormatPrice(amount)}
+            Thank you for your payment of €{amount.toFixed(2)}
           </p>
           <p className="text-sm text-gray-500">
             A receipt has been sent to your email
@@ -227,7 +227,7 @@ const DirectPayment: React.FC<DirectPaymentProps> = ({
                 Processing...
               </>
             ) : (
-              `Pay ${smartFormatPrice(amount)}`
+              `Pay €${amount.toFixed(2)}`
             )}
           </Button>
           
