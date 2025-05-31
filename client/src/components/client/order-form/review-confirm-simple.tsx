@@ -50,30 +50,26 @@ export default function ReviewConfirmSimple({
   console.log("[ReviewConfirm] Starting price calculation for order items:", formData.items);
   
   // Calculate subtotal directly from the order items
-  // Using our consistent pricing from previous steps
+  // Prices are stored in cents in the database
   const subtotalInCents = formData.items.reduce((total, item) => {
     return total + (item.price * item.quantity);
   }, 0);
   
-  // Convert from cents to euros for display
-  const subtotal = subtotalInCents / 100;
+  console.log(`[ReviewConfirm] Calculated subtotal: ${subtotalInCents} cents`);
   
-  console.log(`[ReviewConfirm] Calculated subtotal: ${subtotalInCents} cents = €${subtotal.toFixed(2)}`);
-  
-  // Add delivery fee based on kitchen location
+  // Add delivery fee based on kitchen location (in cents)
   const deliveryFeeInCents = formData.kitchenLocation === "Mykonos" ? 15000 : 10000; // €150 or €100
-  const deliveryFee = deliveryFeeInCents / 100;
   
-  // Calculate total in cents, then convert to euros
+  // Calculate total in cents
   const totalAmountInCents = subtotalInCents + deliveryFeeInCents;
+  
+  // Convert to euros for display only
+  const subtotal = subtotalInCents / 100;
+  const deliveryFee = deliveryFeeInCents / 100;
   const totalAmount = totalAmountInCents / 100;
   
-  console.log(`[ReviewConfirm] Subtotal: ${subtotal.toFixed(2)}, Delivery Fee: ${deliveryFee.toFixed(2)}, Total: ${totalAmount.toFixed(2)}`);
-  
-  // Log the final calculations
-  console.log("[ReviewConfirm] Final subtotal:", subtotal);
-  console.log("[ReviewConfirm] Final delivery fee:", deliveryFee);
-  console.log("[ReviewConfirm] Final total:", totalAmount);
+  console.log(`[ReviewConfirm] Subtotal: €${subtotal.toFixed(2)}, Delivery Fee: €${deliveryFee.toFixed(2)}, Total: €${totalAmount.toFixed(2)}`);
+  console.log(`[ReviewConfirm] Total amount in cents for payment: ${totalAmountInCents}`);
 
   // Format price with Euro symbol
   const formatPrice = (amount: number) => {
@@ -217,7 +213,7 @@ export default function ReviewConfirmSimple({
                   </div>
                   <div className="grid grid-cols-2 text-sm">
                     <span>Flight Details:</span>
-                    <span className="font-medium">{formData.aircraftType}, {formData.tailNumber}</span>
+                    <span className="font-medium">{formData.aircraftType}, {formData.handlerCompany}</span>
                   </div>
                   <div className="grid grid-cols-2 text-sm">
                     <span>Departure:</span>
@@ -251,13 +247,10 @@ export default function ReviewConfirmSimple({
                         setPaymentProcessing(true);
                         console.log("Initiating card payment for order:", submittedOrderId);
                         
-                        // Create a URL to the payment page with the order ID
-                        // Ensure the path is correct and the amount is in euros
-                        // Fix: Convert to cents for payment processing
-                        // The payment system expects the amount in cents (x100)
-                        const amountInCents = Math.round(totalAmount * 100);
-                        console.log("Total amount in euros:", totalAmount, "converted to cents:", amountInCents);
-                        const paymentUrl = `/payment?orderId=${submittedOrderId}&amount=${amountInCents}`;
+                        // Pass the amount in euros to the payment page (not cents)
+                        // The payment page will handle the conversion to cents for Stripe
+                        console.log("Passing total amount to payment page:", totalAmount, "euros");
+                        const paymentUrl = `/payment?orderId=${submittedOrderId}&amount=${totalAmount}`;
                         
                         // Navigate to the payment page
                         window.location.href = paymentUrl;
