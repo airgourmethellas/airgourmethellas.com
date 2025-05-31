@@ -74,14 +74,11 @@ function applyConsistentPricing(items) {
   if (!pricingState.menuItems) return items;
   
   return items.map(item => {
-    // If item already has correct price, keep it
-    if (item.price) return item;
-    
-    // Find the menu item
+    // Find the menu item to get current location-specific pricing
     const menuItem = pricingState.menuItems.find(mi => mi.id === item.menuItemId);
     if (!menuItem) return item;
     
-    // Apply location-specific price
+    // Always apply current location-specific price (don't keep old prices)
     const price = pricingState.kitchenLocation === "Thessaloniki" 
       ? menuItem.priceThessaloniki
       : menuItem.priceMykonos;
