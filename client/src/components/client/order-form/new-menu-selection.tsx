@@ -427,10 +427,7 @@ export default function MenuSelection({
                 </div>
                 <div className="mt-2 text-right">
                   <p className="font-medium text-gray-900">
-                    Subtotal: {(() => {
-                      const raw = item.price * item.quantity;
-                      return `€${(raw / 100).toFixed(2)}`;
-                    })()}
+                    Subtotal: {formatPrice(item.price * item.quantity)}
                   </p>
                 </div>
               </div>
@@ -440,11 +437,11 @@ export default function MenuSelection({
               <p className="font-medium text-lg text-gray-900">Total:</p>
               <p className="font-bold text-xl text-gray-900">
                 {(() => {
-                  const raw = selectedItems.reduce(
+                  const subtotal = selectedItems.reduce(
                     (total, item) => total + (item.price * item.quantity),
                     0
                   );
-                  return `€${(raw / 100).toFixed(2)}`;
+                  return formatPrice(subtotal);
                 })()}
               </p>
             </div>
