@@ -39,42 +39,36 @@ export function generateInvoicePDF(data: InvoiceData): void {
   doc.text(`Invoice #: ${orderNumber}`, 150, 40);
   doc.text(`Date: ${new Date().toLocaleDateString()}`, 150, 50);
   
-  // Flight Information
-  let yPos = 90;
-  doc.setFontSize(12);
+  // Flight Information - More compact layout
+  let yPos = 85;
+  doc.setFontSize(11);
   doc.setTextColor(0, 102, 204);
   doc.text('Flight Information', 20, yPos);
   
-  yPos += 10;
-  doc.setFontSize(10);
+  yPos += 8;
+  doc.setFontSize(9);
   doc.setTextColor(0, 0, 0);
   doc.text(`Aircraft Registration: ${formData.aircraftRegistration || 'N/A'}`, 20, yPos);
-  yPos += 8;
+  yPos += 6;
   doc.text(`Aircraft Type: ${formData.aircraftType || 'N/A'}`, 20, yPos);
-  yPos += 8;
+  yPos += 6;
   doc.text(`Handler Company: ${formData.handlerCompany || 'N/A'}`, 20, yPos);
-  yPos += 8;
+  yPos += 6;
   doc.text(`Departure: ${formData.departureDate || 'N/A'} at ${formData.departureTime || 'N/A'}`, 20, yPos);
-  yPos += 8;
-  doc.text(`From: ${formData.departureAirport || 'N/A'}`, 20, yPos);
-  yPos += 8;
-  doc.text(`To: ${formData.arrivalAirport || 'N/A'}`, 20, yPos);
-  yPos += 8;
-  doc.text(`Passengers: ${formData.passengerCount || 0}`, 20, yPos);
-  yPos += 8;
-  doc.text(`Crew: ${formData.crewCount || 0}`, 20, yPos);
-  yPos += 8;
-  doc.text(`Kitchen Location: ${formData.kitchenLocation || 'Thessaloniki'}`, 20, yPos);
+  yPos += 6;
+  doc.text(`From: ${formData.departureAirport || 'N/A'} to ${formData.arrivalAirport || 'N/A'}`, 20, yPos);
+  yPos += 6;
+  doc.text(`Passengers: ${formData.passengerCount || 0} | Crew: ${formData.crewCount || 0} | Kitchen: ${formData.kitchenLocation || 'Thessaloniki'}`, 20, yPos);
   
-  // Order Items
-  yPos += 20;
-  doc.setFontSize(12);
+  // Order Items - More compact
+  yPos += 15;
+  doc.setFontSize(11);
   doc.setTextColor(0, 102, 204);
   doc.text('Order Items', 20, yPos);
   
   // Table headers
-  yPos += 15;
-  doc.setFontSize(10);
+  yPos += 10;
+  doc.setFontSize(9);
   doc.setTextColor(0, 0, 0);
   doc.text('Item', 20, yPos);
   doc.text('Qty', 120, yPos);
@@ -86,7 +80,7 @@ export function generateInvoicePDF(data: InvoiceData): void {
   
   // Calculate prices and add items
   let subtotal = 0;
-  yPos += 10;
+  yPos += 8;
   
   if (formData.items && formData.items.length > 0) {
     formData.items.forEach((item) => {
@@ -109,15 +103,15 @@ export function generateInvoicePDF(data: InvoiceData): void {
       doc.text(`€${priceInEuros.toFixed(2)}`, 140, yPos);
       doc.text(`€${totalPrice.toFixed(2)}`, 170, yPos);
       
-      yPos += 8;
+      yPos += 6;
       
       // Add special instructions if any
       if (item.specialInstructions) {
-        doc.setFontSize(8);
+        doc.setFontSize(7);
         doc.setTextColor(128, 128, 128);
         doc.text(`Note: ${item.specialInstructions}`, 25, yPos);
-        yPos += 6;
-        doc.setFontSize(10);
+        yPos += 4;
+        doc.setFontSize(9);
         doc.setTextColor(0, 0, 0);
       }
       
@@ -131,29 +125,30 @@ export function generateInvoicePDF(data: InvoiceData): void {
   
   // Draw line before totals
   doc.line(20, yPos + 2, 190, yPos + 2);
-  yPos += 10;
+  yPos += 8;
   
   // Delivery fee
   const deliveryFee = 150.00;
+  doc.setFontSize(9);
   doc.text('Delivery Fee:', 140, yPos);
   doc.text(`€${deliveryFee.toFixed(2)}`, 170, yPos);
-  yPos += 8;
+  yPos += 6;
   
   // Subtotal
   doc.text('Subtotal:', 140, yPos);
   doc.text(`€${subtotal.toFixed(2)}`, 170, yPos);
-  yPos += 8;
+  yPos += 6;
   
   // VAT (24% in Greece)
   const totalBeforeVAT = subtotal + deliveryFee;
   const vatAmount = totalBeforeVAT * 0.24;
   doc.text('VAT (24%):', 140, yPos);
   doc.text(`€${vatAmount.toFixed(2)}`, 170, yPos);
-  yPos += 8;
+  yPos += 6;
   
   // Total
   const grandTotal = totalBeforeVAT + vatAmount;
-  doc.setFontSize(12);
+  doc.setFontSize(11);
   doc.text('TOTAL:', 140, yPos);
   doc.text(`€${grandTotal.toFixed(2)}`, 170, yPos);
   
