@@ -49,8 +49,14 @@ export default function OrderSummaryDisplay({ formData, menuItems }: OrderSummar
   // Fixed delivery fee in cents
   const deliveryFee = 15000; // €150.00 in cents
   
-  // Calculate the total
-  const total = calculateSubtotal() + deliveryFee;
+  // Calculate total before VAT
+  const totalBeforeVAT = calculateSubtotal() + deliveryFee;
+  
+  // Calculate VAT (24% in Greece)
+  const vatAmount = Math.round(totalBeforeVAT * 0.24);
+  
+  // Calculate final total with VAT
+  const total = totalBeforeVAT + vatAmount;
 
   return (
     <Card className="mt-6">
@@ -81,6 +87,10 @@ export default function OrderSummaryDisplay({ formData, menuItems }: OrderSummar
           <div className="flex justify-between">
             <span className="font-medium">Delivery Fee:</span>
             <span className="font-medium">{formatPriceWithSymbol(deliveryFee)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium">VAT (24%):</span>
+            <span className="font-medium">{formatPriceWithSymbol(vatAmount)}</span>
           </div>
           <Separator className="my-2" />
           <div className="flex justify-between text-lg font-semibold">
