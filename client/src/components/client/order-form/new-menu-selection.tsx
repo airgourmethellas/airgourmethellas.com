@@ -66,6 +66,8 @@ export default function MenuSelection({
   // Update the selected items with names and correct location-based pricing when menu data loads
   useEffect(() => {
     if (menuItems && formData.items.length > 0) {
+      console.log(`[MenuSelection] Updating cart items for location: ${formData.kitchenLocation}`);
+      
       const updatedItems = formData.items.map((item) => {
         const menuItem = menuItems.find((mi) => mi.id === item.menuItemId);
         if (!menuItem) return item;
@@ -75,6 +77,8 @@ export default function MenuSelection({
           ? menuItem.priceThessaloniki 
           : menuItem.priceMykonos;
         
+        console.log(`[MenuSelection] ${menuItem.name}: ${formData.kitchenLocation} price = €${(correctPrice/100).toFixed(2)} (${correctPrice} cents)`);
+        
         return {
           ...item,
           name: menuItem.name,
@@ -83,6 +87,16 @@ export default function MenuSelection({
         };
       });
       setSelectedItems(updatedItems);
+      
+      // Also update the form data to ensure consistency
+      onFormDataChange({
+        items: updatedItems.map(item => ({
+          menuItemId: item.menuItemId,
+          quantity: item.quantity,
+          specialInstructions: item.specialInstructions || undefined,
+          price: item.price,
+        }))
+      });
     }
   }, [menuItems, formData.items, formData.kitchenLocation]);
 
@@ -301,7 +315,11 @@ export default function MenuSelection({
                       </div>
                       <div className="text-right">
                         <p className="font-semibold text-gray-900">
-                          €{((formData.kitchenLocation === "Thessaloniki" ? item.priceThessaloniki : item.priceMykonos) / 100).toFixed(2)}
+                          €{(() => {
+                            const price = formData.kitchenLocation === "Thessaloniki" ? item.priceThessaloniki : item.priceMykonos;
+                            console.log(`[MenuDisplay] ${item.name} - Location: ${formData.kitchenLocation}, Price: €${(price/100).toFixed(2)} (Thess: €${(item.priceThessaloniki/100).toFixed(2)}, Mykonos: €${(item.priceMykonos/100).toFixed(2)})`);
+                            return (price / 100).toFixed(2);
+                          })()}
                         </p>
                         <p className="text-xs text-gray-500 mb-1">{item.unit || 'per item'}</p>
                         <Button
