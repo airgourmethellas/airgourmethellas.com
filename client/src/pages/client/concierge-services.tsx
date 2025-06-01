@@ -208,9 +208,11 @@ const ConciergeServicesPage: React.FC = () => {
                           <FormControl>
                             <Input
                               type="time"
+                              step="60"
                               {...field}
                             />
                           </FormControl>
+                          <FormDescription>24-hour format (e.g., 15:30 for 3:30 PM)</FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
