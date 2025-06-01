@@ -166,13 +166,13 @@ export function generateInvoicePDF(data: InvoiceData): void {
   yPos += 10;
   doc.setFontSize(9);
   doc.setTextColor(0, 0, 0);
-  doc.text('Bank: National Bank of Greece', 20, yPos);
+  doc.text('Bank: Piraeus Bank', 20, yPos);
   yPos += 6;
   doc.text('Account Name: Air Gourmet Hellas SA', 20, yPos);
   yPos += 6;
-  doc.text('IBAN: GR1234567890123456789012345', 20, yPos);
+  doc.text('IBAN: GR 140 17 2066 0005 0661 0896 0468', 20, yPos);
   yPos += 6;
-  doc.text('SWIFT/BIC: ETHNGRAA', 20, yPos);
+  doc.text('SWIFT Code: PIRBGRAA', 20, yPos);
   
   // Terms & Conditions
   yPos += 15;

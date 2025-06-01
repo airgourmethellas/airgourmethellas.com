@@ -95,7 +95,8 @@ export default function FlightDetails({
       ...data,
       aircraftType: data.companyName,
       companyName: data.companyName,
-      registrationNumber: data.registrationNumber
+      registrationNumber: data.registrationNumber,
+      aircraftRegistration: data.registrationNumber // Map to aircraftRegistration for PDF
     };
     
     // Handle file uploads - if a single file was uploaded, put it in an array

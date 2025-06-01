@@ -26,6 +26,7 @@ export type OrderFormData = {
   companyName?: string;  // New field for company name
   handlerCompany: string;
   registrationNumber?: string;  // New field for aircraft registration
+  aircraftRegistration?: string;  // For PDF generation compatibility
   departureDate: string;
   departureTime: string;
   departureAirport: string;
