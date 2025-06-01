@@ -8,12 +8,7 @@ import { Loader2, Plus, Minus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { formatPrice } from "@/utils/price-formatter";
-import { 
-  storePriceForItem, 
-  getConsistentPrice,
-  formatCurrency
-} from "@/utils/ensure-consistent-price";
+import { usePricing } from "@/contexts/PricingContext";
 import {
   Tabs,
   TabsContent,
@@ -44,6 +39,17 @@ export default function MenuSelection({
 }: MenuSelectionProps) {
   const [activeTab, setActiveTab] = useState("breads");
   const [dietaryFilter, setDietaryFilter] = useState<string | null>(null);
+  
+  // Use PricingContext for consistent location-based pricing
+  const {
+    location,
+    setLocation,
+    menuItems: contextMenuItems,
+    setMenuItems: setContextMenuItems,
+    getItemPrice,
+    formatPrice
+  } = usePricing();
+  
   const [selectedItems, setSelectedItems] = useState<{
     menuItemId: number;
     quantity: number;
@@ -63,6 +69,22 @@ export default function MenuSelection({
     queryKey: ["/api/menu-items", { kitchen: formData.kitchenLocation }],
   });
 
+  // Sync location with form data and context
+  useEffect(() => {
+    if (formData.kitchenLocation && formData.kitchenLocation !== location) {
+      setLocation(formData.kitchenLocation);
+      console.log(`[MenuSelection] Location synced to: ${formData.kitchenLocation}`);
+    }
+  }, [formData.kitchenLocation, location, setLocation]);
+
+  // Sync menu items with context when data loads
+  useEffect(() => {
+    if (menuItems && menuItems !== contextMenuItems) {
+      setContextMenuItems(menuItems);
+      console.log(`[MenuSelection] Menu items synced: ${menuItems.length} items`);
+    }
+  }, [menuItems, contextMenuItems, setContextMenuItems]);
+
   // Update the selected items with names and correct location-based pricing when menu data loads
   useEffect(() => {
     if (menuItems && formData.items.length > 0) {
@@ -72,18 +94,16 @@ export default function MenuSelection({
         const menuItem = menuItems.find((mi) => mi.id === item.menuItemId);
         if (!menuItem) return item;
         
-        // CRITICAL FIX: Always use current location pricing, not stored prices
-        const correctPrice = formData.kitchenLocation === "Thessaloniki" 
-          ? menuItem.priceThessaloniki 
-          : menuItem.priceMykonos;
+        // Use PricingContext for consistent location-based pricing
+        const correctPrice = getItemPrice(item.menuItemId);
         
-        console.log(`[MenuSelection] ${menuItem.name}: ${formData.kitchenLocation} price = €${(correctPrice/100).toFixed(2)} (${correctPrice} cents)`);
+        console.log(`[MenuSelection] ${menuItem.name}: ${formData.kitchenLocation} price = ${formatPrice(correctPrice)} (${correctPrice} cents)`);
         
         return {
           ...item,
           name: menuItem.name,
           category: menuItem.category,
-          price: correctPrice, // Force update to current location pricing
+          price: correctPrice, // Use PricingContext pricing
         };
       });
       setSelectedItems(updatedItems);
@@ -98,7 +118,7 @@ export default function MenuSelection({
         }))
       });
     }
-  }, [menuItems, formData.items, formData.kitchenLocation]);
+  }, [menuItems, formData.items, formData.kitchenLocation, getItemPrice, formatPrice]);
 
   // Helper function to get the real price in euros for an item
   const getRealPriceInEuros = (itemName: string, priceInCents: number) => {
@@ -120,19 +140,10 @@ export default function MenuSelection({
       (selectedItem) => selectedItem.menuItemId === item.id
     );
 
-    // IMPORTANT FIX: Use consistent location-based pricing throughout the order flow
-    // Get the correct price based on kitchen location
-    const price = formData.kitchenLocation === "Thessaloniki" 
-      ? item.priceThessaloniki 
-      : item.priceMykonos;
+    // Use PricingContext for consistent location-based pricing
+    const price = getItemPrice(item.id);
     
-    // This ensures the same price will be used in the review and payment screens
-    console.log(`[MenuSelection] Using ${formData.kitchenLocation} price for ${item.name}: €${(price/100).toFixed(2)}`);
-    
-    // Log the chosen price for debugging
-    console.log(`[MenuSelection] Selected ${item.name} with price ${price} cents from ${formData.kitchenLocation}`);
-      
-    console.log(`Adding ${item.name} with price ${price} cents from ${formData.kitchenLocation} pricing`);
+    console.log(`[MenuSelection] Adding ${item.name} with price ${formatPrice(price)} from location: ${location}`);
 
     let updatedItems;
     if (existingItem) {
@@ -150,7 +161,7 @@ export default function MenuSelection({
           menuItemId: item.id,
           quantity: 1,
           name: item.name,
-          price: price, // This price is in cents
+          price: price, // This price is in cents from PricingContext
           category: item.category,
         },
       ];
@@ -159,7 +170,6 @@ export default function MenuSelection({
     setSelectedItems(updatedItems);
     
     // Store the complete updated items in form data to ensure consistent pricing
-    // This is CRITICAL to maintain the SAME prices throughout the order flow
     onFormDataChange({
       items: updatedItems.map(item => ({
         menuItemId: item.menuItemId,
@@ -315,10 +325,10 @@ export default function MenuSelection({
                       </div>
                       <div className="text-right">
                         <p className="font-semibold text-gray-900">
-                          €{(() => {
-                            const price = formData.kitchenLocation === "Thessaloniki" ? item.priceThessaloniki : item.priceMykonos;
-                            console.log(`[MenuDisplay] ${item.name} - Location: ${formData.kitchenLocation}, Price: €${(price/100).toFixed(2)} (Thess: €${(item.priceThessaloniki/100).toFixed(2)}, Mykonos: €${(item.priceMykonos/100).toFixed(2)})`);
-                            return (price / 100).toFixed(2);
+                          {(() => {
+                            const price = getItemPrice(item.id);
+                            console.log(`[MenuDisplay] ${item.name} - Location: ${location}, Price: ${formatPrice(price)} (${price} cents)`);
+                            return formatPrice(price);
                           })()}
                         </p>
                         <p className="text-xs text-gray-500 mb-1">{item.unit || 'per item'}</p>
