@@ -157,45 +157,45 @@ export function generateInvoicePDF(data: InvoiceData): void {
   doc.text('TOTAL:', 140, yPos);
   doc.text(`€${grandTotal.toFixed(2)}`, 170, yPos);
   
-  // Payment Information - Make it more prominent
-  yPos += 25;
+  // Payment Information - Move it higher up and make more compact
+  yPos += 15;
   doc.setFontSize(12);
   doc.setTextColor(0, 102, 204);
   doc.text('PAYMENT INFORMATION', 20, yPos);
   
   // Add a box around payment info
   doc.setDrawColor(0, 102, 204);
-  doc.rect(15, yPos + 5, 180, 35);
+  doc.rect(15, yPos + 5, 180, 32);
   
-  yPos += 15;
+  yPos += 12;
   doc.setFontSize(10);
   doc.setTextColor(0, 0, 0);
   doc.text('Bank: Piraeus Bank', 20, yPos);
-  yPos += 8;
+  yPos += 7;
   doc.text('Account Name: Air Gourmet Hellas SA', 20, yPos);
-  yPos += 8;
+  yPos += 7;
   doc.text('IBAN: GR 140 17 2066 0005 0661 0896 0468', 20, yPos);
-  yPos += 8;
+  yPos += 7;
   doc.text('SWIFT Code: PIRBGRAA', 20, yPos);
   
-  // Terms & Conditions
+  // Terms & Conditions - Make more compact
   yPos += 15;
-  doc.setFontSize(10);
+  doc.setFontSize(9);
   doc.setTextColor(0, 102, 204);
   doc.text('Terms & Conditions', 20, yPos);
   
-  yPos += 10;
-  doc.setFontSize(8);
+  yPos += 8;
+  doc.setFontSize(7);
   doc.setTextColor(0, 0, 0);
   doc.text('1. Payment is due within 30 days of invoice date', 20, yPos);
-  yPos += 5;
+  yPos += 4;
   doc.text('2. For questions about this invoice, contact accounts@airgourmethellas.com', 20, yPos);
-  yPos += 5;
+  yPos += 4;
   doc.text('3. Cancellation must be made at least 24 hours before scheduled delivery', 20, yPos);
   
-  // Footer
-  yPos += 15;
-  doc.setFontSize(8);
+  // Footer - Make more compact
+  yPos += 10;
+  doc.setFontSize(7);
   doc.setTextColor(128, 128, 128);
   doc.text('Thank you for choosing Air Gourmet Hellas for your flight catering needs!', 20, yPos);
   
