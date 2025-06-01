@@ -15,8 +15,16 @@ function formatPrice(cents: number): string {
  * Generate a PDF invoice for an order
  */
 export async function generateInvoice(order: Order, items: OrderItem[]): Promise<string> {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
+      // Get menu items for name lookup
+      let menuItems: any[] = [];
+      try {
+        menuItems = await storage.getMenuItems();
+      } catch (error) {
+        console.warn('Could not fetch menu items for invoice', error);
+      }
+
       // Create PDF document
       const doc = new PDFDocument();
       
@@ -96,9 +104,20 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       
       // Process items and add to PDF
       for (const item of items) {
-        const itemName = `Item #${item.menuItemId}`;
-        const price = item.price;
-        const quantity = item.quantity;
+        // Get menu item name from storage if available
+        let itemName = `Item #${item.menuItemId}`;
+        try {
+          const menuItems = await storage.getMenuItems();
+          const menuItem = menuItems.find(mi => mi.id === item.menuItemId);
+          if (menuItem) {
+            itemName = menuItem.name;
+          }
+        } catch (error) {
+          console.warn('Could not fetch menu item name for ID:', item.menuItemId);
+        }
+        
+        const price = item.price || 0;
+        const quantity = item.quantity || 1;
         const total = price * quantity;
         totalAmount += total;
         

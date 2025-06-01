@@ -147,13 +147,7 @@ export default function AuthPage() {
                 <CardDescription className="text-center">
                   {t('auth.loginDescription')}
                 </CardDescription>
-                <div className="mt-4 flex justify-center">
-                  <Button variant="secondary" onClick={() => {
-                    window.location.href = "/simple-login";
-                  }}>
-                    Quick Login (Test User)
-                  </Button>
-                </div>
+
               </CardHeader>
               <CardContent>
                 <Form {...loginForm}>
