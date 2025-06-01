@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { OrderFormData } from "@/pages/client/new-order";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { Loader2, Check, AlertTriangle } from "lucide-react";
+import { Loader2, Check, AlertTriangle, FileDown } from "lucide-react";
 import { useLanguage } from "@/hooks/use-language";
 import {
   Accordion,
@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import DirectPayment from "@/components/ui/direct-payment";
 import { useToast } from "@/hooks/use-toast";
+import { generateInvoicePDF } from "@/utils/pdf-invoice-generator";
 
 interface ReviewConfirmProps {
   formData: OrderFormData;
@@ -46,6 +47,43 @@ export default function ReviewConfirmSimple({
   // Always show payment options after order submission
   const [showPayment, setShowPayment] = useState(true);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+
+  // Handle PDF invoice generation
+  const handleGeneratePDF = async () => {
+    if (!menuItems) {
+      toast({
+        title: "Please wait",
+        description: "Menu data is still loading. Please try again in a moment.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setIsGeneratingPDF(true);
+      
+      generateInvoicePDF({
+        formData,
+        menuItems,
+        orderNumber: `ORD-${Date.now()}`
+      });
+      
+      toast({
+        title: "Invoice Generated",
+        description: "Your PDF invoice has been downloaded successfully.",
+      });
+    } catch (error) {
+      console.error("PDF generation error:", error);
+      toast({
+        title: "PDF Generation Failed",
+        description: "There was an error generating your invoice. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
 
   console.log("[ReviewConfirm] Starting price calculation for order items:", formData.items);
   
@@ -316,6 +354,31 @@ export default function ReviewConfirmSimple({
                       }}
                     >
                       Request Invoice
+                    </Button>
+                  </div>
+                  
+                  <div className="border border-green-300 bg-green-50 rounded-lg p-4 flex items-center">
+                    <div className="flex-1">
+                      <h5 className="font-medium">Download PDF Invoice</h5>
+                      <p className="text-sm text-gray-600">Generate and download your invoice as a PDF document</p>
+                    </div>
+                    <Button 
+                      variant="outline"
+                      onClick={handleGeneratePDF}
+                      disabled={isGeneratingPDF || !menuItems}
+                      className="border-green-600 text-green-700 hover:bg-green-100"
+                    >
+                      {isGeneratingPDF ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <FileDown className="mr-2 h-4 w-4" />
+                          Download PDF
+                        </>
+                      )}
                     </Button>
                   </div>
                 </div>
