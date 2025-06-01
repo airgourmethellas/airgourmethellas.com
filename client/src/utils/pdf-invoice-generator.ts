@@ -17,17 +17,16 @@ export function generateInvoicePDF(data: InvoiceData): void {
   // Set font
   doc.setFont('helvetica');
   
-  // Company Header
-  doc.setFontSize(20);
+  // Company Header - More compact
+  doc.setFontSize(16);
   doc.setTextColor(0, 102, 204); // Blue color
-  doc.text('Air Gourmet Hellas', 20, 30);
+  doc.text('Air Gourmet Hellas', 20, 25);
   
-  doc.setFontSize(12);
+  doc.setFontSize(9);
   doc.setTextColor(0, 0, 0);
-  doc.text('Flight Catering Services', 20, 40);
-  doc.text('1072 Thessaloniki Airport, Greece', 20, 50);
-  doc.text('Tel: +30 231 123 4567', 20, 60);
-  doc.text('Email: info@airgourmethellas.com', 20, 70);
+  doc.text('Flight Catering Services', 20, 35);
+  doc.text('Midias 23A Perea, Thessaloniki 57019', 20, 43);
+  doc.text('Tel: +30 239 2020 500 | Email: info@airgourmethellas.com', 20, 51);
   
   // Invoice Title
   doc.setFontSize(16);
