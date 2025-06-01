@@ -157,21 +157,25 @@ export function generateInvoicePDF(data: InvoiceData): void {
   doc.text('TOTAL:', 140, yPos);
   doc.text(`€${grandTotal.toFixed(2)}`, 170, yPos);
   
-  // Payment Information
-  yPos += 20;
-  doc.setFontSize(10);
+  // Payment Information - Make it more prominent
+  yPos += 25;
+  doc.setFontSize(12);
   doc.setTextColor(0, 102, 204);
-  doc.text('Payment Information', 20, yPos);
+  doc.text('PAYMENT INFORMATION', 20, yPos);
   
-  yPos += 10;
-  doc.setFontSize(9);
+  // Add a box around payment info
+  doc.setDrawColor(0, 102, 204);
+  doc.rect(15, yPos + 5, 180, 35);
+  
+  yPos += 15;
+  doc.setFontSize(10);
   doc.setTextColor(0, 0, 0);
   doc.text('Bank: Piraeus Bank', 20, yPos);
-  yPos += 6;
+  yPos += 8;
   doc.text('Account Name: Air Gourmet Hellas SA', 20, yPos);
-  yPos += 6;
+  yPos += 8;
   doc.text('IBAN: GR 140 17 2066 0005 0661 0896 0468', 20, yPos);
-  yPos += 6;
+  yPos += 8;
   doc.text('SWIFT Code: PIRBGRAA', 20, yPos);
   
   // Terms & Conditions
