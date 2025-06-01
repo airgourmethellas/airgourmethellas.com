@@ -63,20 +63,28 @@ export default function MenuSelection({
     queryKey: ["/api/menu-items", { kitchen: formData.kitchenLocation }],
   });
 
-  // Update the selected items with names from menu items data when it loads
+  // Update the selected items with names and correct location-based pricing when menu data loads
   useEffect(() => {
     if (menuItems && formData.items.length > 0) {
       const updatedItems = formData.items.map((item) => {
         const menuItem = menuItems.find((mi) => mi.id === item.menuItemId);
+        if (!menuItem) return item;
+        
+        // CRITICAL FIX: Always use current location pricing, not stored prices
+        const correctPrice = formData.kitchenLocation === "Thessaloniki" 
+          ? menuItem.priceThessaloniki 
+          : menuItem.priceMykonos;
+        
         return {
           ...item,
-          name: menuItem?.name || "",
-          category: menuItem?.category || "",
+          name: menuItem.name,
+          category: menuItem.category,
+          price: correctPrice, // Force update to current location pricing
         };
       });
       setSelectedItems(updatedItems);
     }
-  }, [menuItems, formData.items]);
+  }, [menuItems, formData.items, formData.kitchenLocation]);
 
   // Helper function to get the real price in euros for an item
   const getRealPriceInEuros = (itemName: string, priceInCents: number) => {
