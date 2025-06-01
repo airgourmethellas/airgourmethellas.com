@@ -101,13 +101,16 @@ export default function ReviewConfirmSimple({
   // Calculate total in cents
   const totalAmountInCents = subtotalInCents + deliveryFeeInCents;
   
-  // Convert to euros for display only
+  // Convert to euros for display
   const subtotal = subtotalInCents / 100;
   const deliveryFee = deliveryFeeInCents / 100;
-  const totalAmount = totalAmountInCents / 100;
+  const totalBeforeVAT = totalAmountInCents / 100;
   
-  console.log(`[ReviewConfirm] Subtotal: €${subtotal.toFixed(2)}, Delivery Fee: €${deliveryFee.toFixed(2)}, Total: €${totalAmount.toFixed(2)}`);
-  console.log(`[ReviewConfirm] Total amount in cents for payment: ${totalAmountInCents}`);
+  // Calculate VAT (24% in Greece)
+  const vatAmount = totalBeforeVAT * 0.24;
+  const totalAmountWithVAT = totalBeforeVAT + vatAmount;
+  
+  console.log(`[ReviewConfirm] Subtotal: €${subtotal.toFixed(2)}, Delivery Fee: €${deliveryFee.toFixed(2)}, Total before VAT: €${totalBeforeVAT.toFixed(2)}, VAT: €${vatAmount.toFixed(2)}, Final Total: €${totalAmountWithVAT.toFixed(2)}`);
 
   // Format price with Euro symbol
   const formatPrice = (amount: number) => {
@@ -117,7 +120,7 @@ export default function ReviewConfirmSimple({
   // Log price data for debugging
   console.log("Calculated subtotal:", subtotal);
   console.log("Delivery fee:", deliveryFee);
-  console.log("Total amount:", totalAmount);
+  console.log("Total amount with VAT:", totalAmountWithVAT);
 
   // Get menu item name by ID
   const getMenuItemName = (id: number) => {
@@ -133,7 +136,7 @@ export default function ReviewConfirmSimple({
       try {
         const res = await apiRequest("POST", "/api/orders", {
           ...data,
-          totalPrice: totalAmount
+          totalPrice: totalAmountWithVAT
         });
         
         if (!res.ok) {
@@ -152,7 +155,7 @@ export default function ReviewConfirmSimple({
             id: new Date().getTime(),
             orderNumber: `AGH-TEST-${Math.floor(Math.random() * 10000)}`,
             status: "pending",
-            totalPrice: totalAmount,
+            totalPrice: totalAmountWithVAT,
             items: data.items || []
           };
           console.log("Using fallback order:", fallbackOrder);
@@ -164,7 +167,7 @@ export default function ReviewConfirmSimple({
           id: new Date().getTime(),
           orderNumber: `AGH-TEST-${Math.floor(Math.random() * 10000)}`,
           status: "pending",
-          totalPrice: totalAmount,
+          totalPrice: totalAmountWithVAT,
           items: data.items || []
         };
         console.log("Using fallback order due to error:", fallbackOrder);
@@ -262,8 +265,8 @@ export default function ReviewConfirmSimple({
                     <span className="font-medium">{formData.deliveryLocation}</span>
                   </div>
                   <div className="grid grid-cols-2 text-sm">
-                    <span>Total Amount:</span>
-                    <span className="font-medium">{formatPrice(totalAmount)}</span>
+                    <span>Total Amount (incl. VAT):</span>
+                    <span className="font-medium">{formatPrice(totalAmountWithVAT)}</span>
                   </div>
                 </div>
               </div>
@@ -285,10 +288,10 @@ export default function ReviewConfirmSimple({
                         setPaymentProcessing(true);
                         console.log("Initiating card payment for order:", submittedOrderId);
                         
-                        // Pass the amount in euros to the payment page (not cents)
+                        // Pass the amount with VAT in euros to the payment page (not cents)
                         // The payment page will handle the conversion to cents for Stripe
-                        console.log("Passing total amount to payment page:", totalAmount, "euros");
-                        const paymentUrl = `/payment?orderId=${submittedOrderId}&amount=${totalAmount}`;
+                        console.log("Passing total amount with VAT to payment page:", totalAmountWithVAT, "euros");
+                        const paymentUrl = `/payment?orderId=${submittedOrderId}&amount=${totalAmountWithVAT}`;
                         
                         // Navigate to the payment page
                         window.location.href = paymentUrl;
