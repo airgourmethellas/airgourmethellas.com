@@ -71,9 +71,10 @@ export default function MenuSelection({
 
   // Sync location with form data and context
   useEffect(() => {
+    console.log(`[PAGE 2 DEBUG] formData.kitchenLocation: ${formData.kitchenLocation}, PricingContext location: ${location}`);
     if (formData.kitchenLocation && formData.kitchenLocation !== location) {
       setLocation(formData.kitchenLocation);
-      console.log(`[MenuSelection] Location synced to: ${formData.kitchenLocation}`);
+      console.log(`[PAGE 2 LOCATION SYNC] Location synced to: ${formData.kitchenLocation}`);
     }
   }, [formData.kitchenLocation, location, setLocation]);
 

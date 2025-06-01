@@ -10,6 +10,13 @@ interface OrderSummaryDisplayProps {
 }
 
 export default function OrderSummaryDisplay({ formData, menuItems }: OrderSummaryDisplayProps) {
+  // Get the correct price based on kitchen location
+  const getLocationBasedPrice = (menuItem: MenuItem): number => {
+    const location = formData.kitchenLocation || "Thessaloniki";
+    console.log(`[PAGE 1 ORDER SUMMARY] Using location: ${location} for ${menuItem.name}`);
+    return location === "Thessaloniki" ? menuItem.priceThessaloniki : menuItem.priceMykonos;
+  };
+
   // Calculate subtotal
   const calculateSubtotal = () => {
     if (!formData.items || !menuItems) return 0;
@@ -18,8 +25,9 @@ export default function OrderSummaryDisplay({ formData, menuItems }: OrderSummar
       const menuItem = menuItems.find(mi => mi.id === item.menuItemId);
       if (!menuItem) return total;
       
-      // Convert from cents to euros for display
-      const price = menuItem.priceThessaloniki; // Price in cents
+      // Use location-based pricing like Page 2
+      const price = getLocationBasedPrice(menuItem);
+      console.log(`[PAGE 1 PRICING] ${menuItem.name}: ${formData.kitchenLocation} price = €${(price/100).toFixed(2)} (${price} cents)`);
       return total + (price * item.quantity);
     }, 0);
   };
@@ -31,11 +39,11 @@ export default function OrderSummaryDisplay({ formData, menuItems }: OrderSummar
     return menuItem ? menuItem.name : "Unknown Item";
   };
 
-  // Get the price of a menu item (in cents)
+  // Get the price of a menu item (in cents) using location-based pricing
   const getItemPrice = (id: number) => {
     if (!menuItems) return 0;
     const menuItem = menuItems.find(item => item.id === id);
-    return menuItem ? menuItem.priceThessaloniki : 0; // Price in cents
+    return menuItem ? getLocationBasedPrice(menuItem) : 0;
   };
 
   // Fixed delivery fee in cents
