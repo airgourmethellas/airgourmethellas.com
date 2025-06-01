@@ -70,13 +70,14 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       doc.fontSize(12).text('Flight Details', { underline: true });
       doc.moveDown(0.5);
       doc.fontSize(10)
-        .text(`Aircraft: ${order.aircraftType}`)
-        .text(`Tail Number: ${order.tailNumber}`)
+        .text(`Aircraft Type: ${order.aircraftType}`)
+        .text(`Handler Company: ${order.handlerCompany}`)
         .text(`Departure: ${order.departureDate} at ${order.departureTime}`)
         .text(`From: ${order.departureAirport}`)
         .text(`To: ${order.arrivalAirport || 'N/A'}`)
         .text(`Passengers: ${order.passengerCount}`)
-        .text(`Crew: ${order.crewCount}`);
+        .text(`Crew: ${order.crewCount}`)
+        .text(`Kitchen Location: ${order.kitchenLocation}`);
       doc.moveDown();
       
       // We'll fetch user info outside this function and pass it to the document
@@ -104,16 +105,11 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       
       // Process items and add to PDF
       for (const item of items) {
-        // Get menu item name from storage if available
+        // Get menu item name from pre-fetched menu items
         let itemName = `Item #${item.menuItemId}`;
-        try {
-          const menuItems = await storage.getMenuItems();
-          const menuItem = menuItems.find(mi => mi.id === item.menuItemId);
-          if (menuItem) {
-            itemName = menuItem.name;
-          }
-        } catch (error) {
-          console.warn('Could not fetch menu item name for ID:', item.menuItemId);
+        const menuItem = menuItems.find(mi => mi.id === item.menuItemId);
+        if (menuItem) {
+          itemName = menuItem.name;
         }
         
         const price = item.price || 0;
@@ -252,7 +248,7 @@ Dear ${user.firstName} ${user.lastName},
 
 Thank you for your order with Air Gourmet Hellas.
 
-Please find attached your invoice #${order.id} for your catering order on flight ${order.tailNumber} departing on ${order.departureDate}.
+Please find attached your invoice #${order.id} for your catering order departing on ${order.departureDate}.
 
 If you have any questions regarding this invoice, please contact our finance department at finance@airgourmethellas.com.
 
@@ -273,7 +269,7 @@ Air Gourmet Hellas Team
     
     <p>Thank you for your order with Air Gourmet Hellas.</p>
     
-    <p>Please find attached your invoice <strong>#${order.id}</strong> for your catering order on flight <strong>${order.tailNumber}</strong> departing on ${order.departureDate}.</p>
+    <p>Please find attached your invoice <strong>#${order.id}</strong> for your catering order departing on ${order.departureDate}.</p>
     
     <p>If you have any questions regarding this invoice, please contact our finance department at <a href="mailto:finance@airgourmethellas.com">finance@airgourmethellas.com</a>.</p>
     

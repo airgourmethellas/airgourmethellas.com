@@ -1042,6 +1042,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register invoice routes
   registerInvoiceRoutes(app);
   
+  // Test route for PDF generation
+  app.get("/api/test-pdf", async (req, res) => {
+    try {
+      const { testPDFGeneration } = await import('./test-pdf');
+      const result = await testPDFGeneration();
+      res.json(result);
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+  
   // Register chat routes
   app.use('/api', chatRoutes);
 
