@@ -48,6 +48,8 @@ export function generateInvoicePDF(data: InvoiceData): void {
   yPos += 10;
   doc.setFontSize(10);
   doc.setTextColor(0, 0, 0);
+  doc.text(`Aircraft Registration: ${formData.aircraftRegistration || 'N/A'}`, 20, yPos);
+  yPos += 8;
   doc.text(`Aircraft Type: ${formData.aircraftType || 'N/A'}`, 20, yPos);
   yPos += 8;
   doc.text(`Handler Company: ${formData.handlerCompany || 'N/A'}`, 20, yPos);

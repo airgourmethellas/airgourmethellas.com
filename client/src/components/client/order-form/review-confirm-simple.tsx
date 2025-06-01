@@ -299,63 +299,7 @@ export default function ReviewConfirmSimple({
                     </Button>
                   </div>
                   
-                  <div className="border border-gray-300 rounded-lg p-4 flex items-center">
-                    <div className="flex-1">
-                      <h5 className="font-medium">Invoice Payment</h5>
-                      <p className="text-sm text-gray-600">We will send an invoice to your company email</p>
-                    </div>
-                    <Button 
-                      variant="outline"
-                      onClick={() => {
-                        // Prevent accidental double-clicks
-                        if (paymentProcessing) return;
-                        
-                        setPaymentProcessing(true);
-                        console.log("Requesting invoice for order:", submittedOrderId);
-                        
-                        // Show immediate success message to inform user their request is being processed
-                        toast({
-                          title: "Processing Invoice Request",
-                          description: "Your invoice request is being processed...",
-                        });
-                        
-                        // Create a direct success function to call when process completes
-                        const handleInvoiceSuccess = () => {
-                          // Show success message
-                          toast({
-                            title: "Invoice Requested Successfully",
-                            description: "An invoice will be sent to your registered email address.",
-                          });
-                          
-                          // Show order complete message after a short delay
-                          setTimeout(() => {
-                            toast({
-                              title: "Order Complete",
-                              description: "Your order is now being processed by our team.",
-                            });
-                            
-                            // Navigate to orders page or home page, depending on what exists
-                            try {
-                              window.location.href = "/";
-                            } catch (navError) {
-                              console.error("Navigation error:", navError);
-                              // Fallback in case of navigation issues
-                              window.location.reload();
-                            }
-                          }, 1500);
-                        };
-                        
-                        // Call success function after a short delay
-                        // This simulates an API call without requiring an actual endpoint
-                        setTimeout(() => {
-                          setPaymentProcessing(false);
-                          handleInvoiceSuccess();
-                        }, 800);
-                      }}
-                    >
-                      Request Invoice
-                    </Button>
-                  </div>
+
                   
                   <div className="border border-green-300 bg-green-50 rounded-lg p-4 flex items-center">
                     <div className="flex-1">
