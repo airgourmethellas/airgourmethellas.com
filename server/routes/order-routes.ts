@@ -107,7 +107,9 @@ router.post('/orders', async (req, res) => {
       advanceNoticeConfirmation: true, // Force to true as it's required
       passengerCount: orderData.passengerCount || 0,
       crewCount: orderData.crewCount || 0,
-      deliveryFee: 150.0 // Standard delivery fee
+      deliveryFee: 150.0, // Standard delivery fee
+      // Fix the totalPrice data type - convert to cents (integer) for database
+      totalPrice: Math.round((orderData.totalPrice || 0) * 100)
     };
     
     // Insert order
