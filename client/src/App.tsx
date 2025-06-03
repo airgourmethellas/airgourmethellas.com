@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth-page";
+import SimpleAuth from "@/pages/simple-auth";
 import MenuPage from "@/pages/menu-page";
 import PaymentTest from "@/pages/payment-test";
 import PaymentSuccess from "@/pages/payment-success";
