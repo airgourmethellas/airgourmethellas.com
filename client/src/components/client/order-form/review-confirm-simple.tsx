@@ -133,45 +133,36 @@ export default function ReviewConfirmSimple({
   const submitMutation = useMutation({
     mutationFn: async (data: OrderFormData) => {
       setIsSubmitting(true);
+      console.log("[FRONTEND] Starting order submission with data:", data);
+      console.log("[FRONTEND] Total price being sent:", totalAmountWithVAT);
+      
       try {
-        const res = await apiRequest("POST", "/api/orders", {
+        const orderData = {
           ...data,
           totalPrice: totalAmountWithVAT
-        });
+        };
+        
+        console.log("[FRONTEND] Sending POST request to /api/orders with data:", orderData);
+        
+        const res = await apiRequest("POST", "/api/orders", orderData);
+        
+        console.log("[FRONTEND] Response status:", res.status);
+        console.log("[FRONTEND] Response headers:", Object.fromEntries(res.headers.entries()));
         
         if (!res.ok) {
           const errorText = await res.text();
-          console.error("Error submitting order:", errorText);
-          throw new Error("Failed to submit order");
+          console.error("[FRONTEND] Server error response:", errorText);
+          throw new Error(`Server error: ${res.status} - ${errorText}`);
         }
         
-        try {
-          return await res.json();
-        } catch (jsonError) {
-          console.error("Error parsing JSON response:", jsonError);
-          
-          // Fallback response if JSON parsing fails
-          const fallbackOrder = {
-            id: new Date().getTime(),
-            orderNumber: `AGH-TEST-${Math.floor(Math.random() * 10000)}`,
-            status: "pending",
-            totalPrice: totalAmountWithVAT,
-            items: data.items || []
-          };
-          console.log("Using fallback order:", fallbackOrder);
-          return fallbackOrder;
-        }
+        const result = await res.json();
+        console.log("[FRONTEND] Order submitted successfully, server response:", result);
+        return result;
       } catch (error) {
-        console.error("Order submission error:", error);
-        const fallbackOrder = {
-          id: new Date().getTime(),
-          orderNumber: `AGH-TEST-${Math.floor(Math.random() * 10000)}`,
-          status: "pending",
-          totalPrice: totalAmountWithVAT,
-          items: data.items || []
-        };
-        console.log("Using fallback order due to error:", fallbackOrder);
-        return fallbackOrder;
+        console.error("[FRONTEND] Order submission failed:", error);
+        throw error;
+      } finally {
+        setIsSubmitting(false);
       }
     },
     onSuccess: (data) => {
@@ -191,7 +182,7 @@ export default function ReviewConfirmSimple({
         description: error.message || "There was an error submitting your order. Please try again.",
         variant: "destructive",
       });
-    },
+    }
   });
 
   const handleSubmit = () => {

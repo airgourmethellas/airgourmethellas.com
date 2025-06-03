@@ -45,6 +45,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register the new modular payment routes
   registerPaymentRoutes(app);
   
+  // Register order routes
+  app.use("/api", orderRoutes);
+  
+  // Register other modular routes  
+  app.use("/api", inventoryRoutes);
+  app.use("/api", scheduleRoutes);
+  app.use("/api", gdprRoutes);
+  app.use("/api", integrationRoutes);
+  app.use("/api", chatRoutes);
+  
+  // Register invoice routes
+  registerInvoiceRoutes(app);
+  
+  // Register concierge routes
+  registerConciergeRoutes(app);
+  
+  // Register order status routes
+  registerOrderStatusRoutes(app);
+  
   // Payment routes 
   app.get("/api/payments/config", (req, res) => {
     try {
