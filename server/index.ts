@@ -6,7 +6,10 @@ import fs from "fs";
 import path from "path";
 import { createServer as createHttpServer } from "http";
 import { createServer as createHttpsServer } from "https";
+import { fileURLToPath } from "url";
 import cors from 'cors';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Create Express app
 const app = express();
@@ -42,7 +45,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Serve static files from client/public directory
-app.use(express.static(path.join(import.meta.dirname, '..', 'client', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
 
 // Log static file requests for debugging
 app.use((req, res, next) => {
