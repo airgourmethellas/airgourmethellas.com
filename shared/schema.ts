@@ -70,7 +70,7 @@ export const orders = pgTable("orders", {
   userId: integer("user_id").notNull(),
   orderNumber: text("order_number").notNull().unique(),
   aircraftType: text("aircraft_type").notNull(),
-  tailNumber: text("tail_number").notNull(),
+  handlerCompany: text("handler_company").notNull(),
   departureDate: text("departure_date").notNull(),
   departureTime: text("departure_time").notNull(),
   departureAirport: text("departure_airport").notNull(),
@@ -85,6 +85,12 @@ export const orders = pgTable("orders", {
   documents: text("documents").array(), // file paths or URLs
   status: text("status").notNull().default("pending"), // 'pending', 'confirmed', 'processing', 'preparing', 'ready', 'in_transit', 'delivered', 'cancelled'
   kitchenLocation: text("kitchen_location").notNull(), // 'Thessaloniki', 'Mykonos'
+  cancellationPolicyAccepted: boolean("cancellation_policy_accepted").notNull().default(false),
+  deliveryFee: real("delivery_fee").notNull().default(150), // Standard delivery fee of 150 euros
+  // Payment-related fields
+  paymentStatus: text("payment_status").default("not_started"), // 'not_started', 'pending', 'paid', 'failed', 'refunded'
+  paymentIntentId: text("payment_intent_id"), // Stripe payment intent ID
+  paymentMethod: text("payment_method"), // e.g., 'card', 'bank_transfer', etc.
   created: timestamp("created").defaultNow().notNull(),
   updated: timestamp("updated").defaultNow().notNull(),
   totalPrice: integer("total_price").notNull(),
