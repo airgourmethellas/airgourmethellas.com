@@ -9,6 +9,7 @@ import HomePage from "@/pages/home-page";
 import MenuPage from "@/pages/menu-page";
 import PaymentTest from "@/pages/payment-test";
 import PaymentTestSimple from "@/pages/payment-test-simple";
+import OrderPaymentDebug from "@/pages/order-payment-debug";
 import PaymentSuccess from "@/pages/payment-success";
 import PaymentPage from "@/pages/payment";
 import AuthTest from "@/pages/auth-test";
@@ -85,6 +86,12 @@ function Router() {
       <Route path="/payment-test-simple">
         <ErrorBoundary>
           <PaymentTestSimple />
+        </ErrorBoundary>
+      </Route>
+      
+      <Route path="/order-payment-debug">
+        <ErrorBoundary>
+          <OrderPaymentDebug />
         </ErrorBoundary>
       </Route>
       
