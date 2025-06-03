@@ -59,7 +59,7 @@ function Router() {
       </Route>
       <Route path="/auth">
         <ErrorBoundary>
-          <AuthPage />
+          <SimpleAuth />
         </ErrorBoundary>
       </Route>
       <Route path="/menu">
