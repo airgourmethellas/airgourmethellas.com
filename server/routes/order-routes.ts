@@ -18,12 +18,15 @@ function generateOrderNumber(): string {
 // Create a simplified order endpoint that works for both authenticated users and guest checkout
 router.post('/orders', async (req, res) => {
   try {
-    console.log('DEBUGGING - New order request received');
+    console.log('[BACKEND] ========== NEW ORDER REQUEST ==========');
+    console.log('[BACKEND] Request method:', req.method);
+    console.log('[BACKEND] Request URL:', req.url);
+    console.log('[BACKEND] Request headers:', JSON.stringify(req.headers, null, 2));
     
     // Log the order submission request with sensitive data removed
     const logData = { ...req.body };
     if (logData.documents) logData.documents = `${logData.documents.length} documents`;
-    console.log('Received order submission:', JSON.stringify(logData, null, 2));
+    console.log('[BACKEND] Received order submission data:', JSON.stringify(logData, null, 2));
     
     // Helpful debugging info about authentication state
     console.log('Authentication state when submitting order:',
@@ -108,10 +111,15 @@ router.post('/orders', async (req, res) => {
     };
     
     // Insert order
+    console.log('[BACKEND] Creating order in database with data:', JSON.stringify(newOrderData, null, 2));
     const order = await storage.createOrder(newOrderData);
+    console.log('[BACKEND] Order created successfully with ID:', order.id);
+    console.log('[BACKEND] Created order object:', JSON.stringify(order, null, 2));
     
     // Process order items if provided
+    console.log('[BACKEND] Processing order items...');
     if (req.body.items && Array.isArray(req.body.items)) {
+      console.log('[BACKEND] Found', req.body.items.length, 'items to process');
       for (const item of req.body.items) {
         const orderItem = {
           ...item,
@@ -136,10 +144,13 @@ router.post('/orders', async (req, res) => {
     });
     
     // Send notifications
+    console.log('[BACKEND] Sending order notification...');
     sendOrderNotification(order.id, NotificationType.NEW_ORDER)
-      .catch(err => console.error('Error sending new order notification:', err));
+      .catch(err => console.error('[BACKEND] Error sending new order notification:', err));
     
     // Return the created order
+    console.log('[BACKEND] Returning order to frontend:', order.id);
+    console.log('[BACKEND] ========== ORDER CREATION COMPLETE ==========');
     return res.status(201).json(order);
   } catch (error) {
     console.error('Error creating order:', error);
