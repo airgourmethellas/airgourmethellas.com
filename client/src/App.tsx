@@ -60,7 +60,11 @@ function Router() {
           <HomePage />
         </ErrorBoundary>
       </Route>
-      <Route path="/preview" component={PreviewPage} />
+      <Route path="/preview">
+        <ErrorBoundary>
+          <PreviewPage />
+        </ErrorBoundary>
+      </Route>
       <Route path="/price-format-test" component={PriceFormatTest} />
       <Route path="/invoice-test">
         <ErrorBoundary>
