@@ -12,6 +12,7 @@ import PaymentTestSimple from "@/pages/payment-test-simple";
 import OrderPaymentDebug from "@/pages/order-payment-debug";
 import OrderFlowTest from "@/pages/order-flow-test";
 import SimpleOrderTest from "@/pages/simple-order-test";
+import OrderDebugComplete from "@/pages/order-debug-complete";
 import PaymentSuccess from "@/pages/payment-success";
 import PaymentPage from "@/pages/payment";
 import AuthTest from "@/pages/auth-test";
@@ -110,6 +111,12 @@ function Router() {
       <Route path="/simple-order-test">
         <ErrorBoundary>
           <SimpleOrderTest />
+        </ErrorBoundary>
+      </Route>
+      
+      <Route path="/order-debug-complete">
+        <ErrorBoundary>
+          <OrderDebugComplete />
         </ErrorBoundary>
       </Route>
       
