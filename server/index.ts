@@ -17,8 +17,8 @@ const app = express();
 // CORS middleware - setup before other middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://www.airgourmethellas.com']
-    : [/localhost:\d+$/, /\.replit\.app$/, process.env.REPLIT_URL || ''],
+    ? ['https://www.airgourmethellas.com', 'https://airgourmethellas.com']
+    : [/localhost:\d+$/, /\.replit\.app$/, process.env.REPLIT_URL || '', 'https://airgourmethellas.com', 'https://www.airgourmethellas.com'],
   credentials: true, // Allow credentials
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
