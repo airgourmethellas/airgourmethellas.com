@@ -26,6 +26,8 @@ export default function PaymentPage() {
   useEffect(() => {
     if (!orderId || !amount) {
       setError("Missing order information. Please go back and try again.");
+    } else if (orderId === "new") {
+      setError("Order must be created before payment. Please go back and submit your order first.");
     }
   }, [orderId, amount]);
   
