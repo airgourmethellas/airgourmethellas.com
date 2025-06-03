@@ -140,6 +140,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Test endpoint for Stripe configuration
+  app.get("/api/test-stripe", async (req, res) => {
+    try {
+      const config = getStripeConfig();
+      res.json({
+        configured: !!config,
+        hasSecretKey: !!process.env.STRIPE_SECRET_KEY,
+        hasPublicKey: !!process.env.VITE_STRIPE_PUBLIC_KEY,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        error: "Stripe configuration test failed",
+        message: error.message
+      });
+    }
+  });
+
   // API routes
   // ========== Aircraft Types ==========
   app.get("/api/aircraft-types", async (req, res) => {
