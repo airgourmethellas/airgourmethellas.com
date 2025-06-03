@@ -5,6 +5,7 @@ import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth-page";
 import SimpleAuth from "@/pages/simple-auth";
 import RestoredAuth from "@/pages/restored-auth";
+import HomePage from "@/pages/home-page";
 import MenuPage from "@/pages/menu-page";
 import PaymentTest from "@/pages/payment-test";
 import PaymentSuccess from "@/pages/payment-success";
@@ -52,6 +53,11 @@ function Router() {
       <Route path="/network-error" component={NetworkErrorPage} />
       
       {/* Public Pages */}
+      <Route path="/home">
+        <ErrorBoundary>
+          <HomePage />
+        </ErrorBoundary>
+      </Route>
       <Route path="/preview" component={PreviewPage} />
       <Route path="/price-format-test" component={PriceFormatTest} />
       <Route path="/invoice-test">
