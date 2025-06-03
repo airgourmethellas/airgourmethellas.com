@@ -102,9 +102,31 @@ export default function RestoredAuth() {
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Plane className="h-8 w-8 text-blue-600" />
-              <h1 className="text-3xl font-bold text-blue-900">Air Gourmet Hellas</h1>
+            <div className="flex justify-center mb-4">
+              <div style={{
+                backgroundColor: '#ffffff',
+                display: 'inline-block',
+                boxShadow: 'none',
+                border: 'none',
+                outline: 'none',
+                padding: '12px',
+                borderRadius: '12px',
+                overflow: 'hidden'
+              }}>
+                <img 
+                  src="/logo.png" 
+                  alt="Air Gourmet Hellas Logo" 
+                  style={{
+                    width: '280px',
+                    maxWidth: '100%',
+                    height: 'auto',
+                    display: 'block',
+                    border: '0',
+                    outline: 'none',
+                    boxShadow: 'none'
+                  }}
+                />
+              </div>
             </div>
             <p className="text-gray-600">Premium Flight Catering Services</p>
           </div>
