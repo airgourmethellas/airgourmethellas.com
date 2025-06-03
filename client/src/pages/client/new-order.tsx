@@ -24,6 +24,7 @@ const STEPS = ["flight-details", "menu-selection", "special-requests", "review-c
 export type OrderFormData = {
   aircraftType: string;  // Keeping for backward compatibility
   companyName?: string;  // New field for company name
+  customerEmail?: string;  // New field for invoice delivery
   handlerCompany: string;
   registrationNumber?: string;  // New field for aircraft registration
   aircraftRegistration?: string;  // For PDF generation compatibility

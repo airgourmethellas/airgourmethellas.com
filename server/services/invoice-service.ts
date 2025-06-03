@@ -162,7 +162,7 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       doc.moveDown();
       
       // Add totals
-      const vatRate = 0.24; // 24% VAT in Greece
+      const vatRate = 0.13; // 13% VAT in Greece
       const vatAmount = subtotal * vatRate;
       const total = subtotal + vatAmount;
       
@@ -172,7 +172,7 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       
       doc.moveDown();
       
-      doc.text('VAT (24%):', doc.x + columnWidths.item + columnWidths.quantity, doc.y, { width: columnWidths.price, align: 'right' })
+      doc.text('VAT (13%):', doc.x + columnWidths.item + columnWidths.quantity, doc.y, { width: columnWidths.price, align: 'right' })
         .text(formatPriceWithSymbol(vatAmount), doc.x + columnWidths.item + columnWidths.quantity + columnWidths.price, doc.y, { width: columnWidths.total, align: 'right' });
       
       doc.moveDown();

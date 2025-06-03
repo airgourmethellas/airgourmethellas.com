@@ -138,10 +138,10 @@ export function generateInvoicePDF(data: InvoiceData): void {
   doc.text(`€${subtotal.toFixed(2)}`, 170, yPos);
   yPos += 6;
   
-  // VAT (24% in Greece)
+  // VAT (13% in Greece)
   const totalBeforeVAT = subtotal + deliveryFee;
-  const vatAmount = totalBeforeVAT * 0.24;
-  doc.text('VAT (24%):', 140, yPos);
+  const vatAmount = totalBeforeVAT * 0.13;
+  doc.text('VAT (13%):', 140, yPos);
   doc.text(`€${vatAmount.toFixed(2)}`, 170, yPos);
   yPos += 6;
   

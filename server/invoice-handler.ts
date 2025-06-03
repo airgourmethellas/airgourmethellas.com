@@ -145,13 +145,13 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
         doc.moveDown();
       }
       
-      // Calculate VAT (24% in Greece)
-      const vatAmount = Math.round(totalAmount * 0.24);
+      // Calculate VAT (13% in Greece)
+      const vatAmount = Math.round(totalAmount * 0.13);
       doc.text('Subtotal:', 350, doc.y, { width: 100, align: 'right' });
       doc.text(formatPrice(totalAmount), 450, doc.y, { width: 100, align: 'right' });
       doc.moveDown();
       
-      doc.text('VAT (24%):', 350, doc.y, { width: 100, align: 'right' });
+      doc.text('VAT (13%):', 350, doc.y, { width: 100, align: 'right' });
       doc.text(formatPrice(vatAmount), 450, doc.y, { width: 100, align: 'right' });
       doc.moveDown();
       
