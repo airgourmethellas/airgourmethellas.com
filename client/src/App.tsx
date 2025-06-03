@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth-page";
+import EmergencyAuth from "@/pages/emergency-auth";
 import MenuPage from "@/pages/menu-page";
 import PaymentTest from "@/pages/payment-test";
 import PaymentSuccess from "@/pages/payment-success";
@@ -59,7 +60,7 @@ function Router() {
       </Route>
       <Route path="/auth">
         <ErrorBoundary>
-          <AuthPage />
+          <EmergencyAuth />
         </ErrorBoundary>
       </Route>
       <Route path="/menu">
