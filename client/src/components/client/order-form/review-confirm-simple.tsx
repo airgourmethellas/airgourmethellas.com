@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import DirectPayment from "@/components/ui/direct-payment";
 import { useToast } from "@/hooks/use-toast";
 import { generateInvoicePDF } from "@/utils/pdf-invoice-generator";
+import { useLocation } from "wouter";
 
 interface ReviewConfirmProps {
   formData: OrderFormData;
