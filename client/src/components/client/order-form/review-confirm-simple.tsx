@@ -275,8 +275,16 @@ export default function ReviewConfirmSimple({
                     </div>
                     <Button 
                       onClick={() => {
+                        console.log("Payment button clicked!");
+                        console.log("Payment processing state:", paymentProcessing);
+                        console.log("Submitted order ID:", submittedOrderId);
+                        console.log("Total amount with VAT:", totalAmountWithVAT);
+                        
                         // Prevent multiple clicks
-                        if (paymentProcessing) return;
+                        if (paymentProcessing) {
+                          console.log("Payment already processing, returning early");
+                          return;
+                        }
                         
                         setPaymentProcessing(true);
                         console.log("Initiating card payment for order:", submittedOrderId);
@@ -285,8 +293,12 @@ export default function ReviewConfirmSimple({
                         // The payment page will handle the conversion to cents for Stripe
                         console.log("Passing total amount with VAT to payment page:", totalAmountWithVAT, "euros");
                         
+                        const paymentUrl = `/payment?orderId=${submittedOrderId}&amount=${totalAmountWithVAT}`;
+                        console.log("Navigating to payment URL:", paymentUrl);
+                        
                         // Use React routing instead of window.location.href
-                        setLocation(`/payment?orderId=${submittedOrderId}&amount=${totalAmountWithVAT}`);
+                        setLocation(paymentUrl);
+                        console.log("setLocation called with:", paymentUrl);
                       }}
                       className="bg-blue-600 hover:bg-blue-700 text-white"
                     >
