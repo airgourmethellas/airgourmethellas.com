@@ -142,8 +142,15 @@ function Router() {
         </ErrorBoundary>
       </Route>
       
+      {/* Public Landing Page */}
+      <Route path="/">
+        <ErrorBoundary>
+          <HomePage />
+        </ErrorBoundary>
+      </Route>
+
       {/* Client routes */}
-      <ProtectedRoute path="/" component={() => (
+      <ProtectedRoute path="/dashboard" component={() => (
         <ClientLayout>
           <NewOrder />
         </ClientLayout>
