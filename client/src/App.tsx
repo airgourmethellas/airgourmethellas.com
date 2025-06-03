@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth-page";
 import SimpleAuth from "@/pages/simple-auth";
+import RestoredAuth from "@/pages/restored-auth";
 import MenuPage from "@/pages/menu-page";
 import PaymentTest from "@/pages/payment-test";
 import PaymentSuccess from "@/pages/payment-success";
@@ -60,7 +61,7 @@ function Router() {
       </Route>
       <Route path="/auth">
         <ErrorBoundary>
-          <SimpleAuth />
+          <RestoredAuth />
         </ErrorBoundary>
       </Route>
       <Route path="/menu">
