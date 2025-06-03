@@ -69,7 +69,7 @@ export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),
   orderNumber: text("order_number").notNull().unique(),
-  aircraftType: text("aircraft_type").notNull(),
+  aircraftType: text("aircraftType").notNull(),
   handlerCompany: text("handler_company").notNull(),
   departureDate: text("departure_date").notNull(),
   departureTime: text("departure_time").notNull(),
