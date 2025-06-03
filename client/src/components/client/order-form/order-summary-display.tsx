@@ -52,8 +52,8 @@ export default function OrderSummaryDisplay({ formData, menuItems }: OrderSummar
   // Calculate total before VAT
   const totalBeforeVAT = calculateSubtotal() + deliveryFee;
   
-  // Calculate VAT (24% in Greece)
-  const vatAmount = Math.round(totalBeforeVAT * 0.24);
+  // Calculate VAT (13% in Greece)
+  const vatAmount = Math.round(totalBeforeVAT * 0.13);
   
   // Calculate final total with VAT
   const total = totalBeforeVAT + vatAmount;
@@ -89,7 +89,7 @@ export default function OrderSummaryDisplay({ formData, menuItems }: OrderSummar
             <span className="font-medium">{formatPriceWithSymbol(deliveryFee)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="font-medium">VAT (24%):</span>
+            <span className="font-medium">VAT (13%):</span>
             <span className="font-medium">{formatPriceWithSymbol(vatAmount)}</span>
           </div>
           <Separator className="my-2" />

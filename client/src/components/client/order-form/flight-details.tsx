@@ -14,6 +14,7 @@ import { useLanguage } from "@/hooks/use-language";
 // Define the flight details schema
 const flightDetailsSchema = z.object({
   companyName: z.string().min(1, "Company name is required"),
+  customerEmail: z.string().email("Please enter a valid email address").min(1, "Email is required for invoice delivery"),
   handlerCompany: z.string().min(1, "Handler company is required"),
   registrationNumber: z.string().min(1, "Registration number is required"),
   departureDate: z.string().min(1, "Departure date is required"),
@@ -140,6 +141,29 @@ export default function FlightDetails({
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="customerEmail"
+              render={({ field }) => (
+                <FormItem className="col-span-6 sm:col-span-3">
+                  <FormLabel>Email Address *</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="email" 
+                      placeholder="customer@company.com" 
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Required for invoice delivery
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-6 gap-6">
             <FormField
               control={form.control}
               name="handlerCompany"

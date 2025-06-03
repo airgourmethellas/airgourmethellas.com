@@ -106,8 +106,8 @@ export default function ReviewConfirmSimple({
   const deliveryFee = deliveryFeeInCents / 100;
   const totalBeforeVAT = totalAmountInCents / 100;
   
-  // Calculate VAT (24% in Greece)
-  const vatAmount = totalBeforeVAT * 0.24;
+  // Calculate VAT (13% in Greece)
+  const vatAmount = totalBeforeVAT * 0.13;
   const totalAmountWithVAT = totalBeforeVAT + vatAmount;
   
   console.log(`[ReviewConfirm] Subtotal: €${subtotal.toFixed(2)}, Delivery Fee: €${deliveryFee.toFixed(2)}, Total before VAT: €${totalBeforeVAT.toFixed(2)}, VAT: €${vatAmount.toFixed(2)}, Final Total: €${totalAmountWithVAT.toFixed(2)}`);
