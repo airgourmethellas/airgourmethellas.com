@@ -38,6 +38,7 @@ export default function ReviewConfirmSimple({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
   const { t } = useLanguage();
+  const [, setLocation] = useLocation();
 
   // Get menu items to display names
   const { data: menuItems } = useQuery<MenuItem[]>({
@@ -283,10 +284,9 @@ export default function ReviewConfirmSimple({
                         // Pass the amount with VAT in euros to the payment page (not cents)
                         // The payment page will handle the conversion to cents for Stripe
                         console.log("Passing total amount with VAT to payment page:", totalAmountWithVAT, "euros");
-                        const paymentUrl = `/payment?orderId=${submittedOrderId}&amount=${totalAmountWithVAT}`;
                         
-                        // Navigate to the payment page
-                        window.location.href = paymentUrl;
+                        // Use React routing instead of window.location.href
+                        setLocation(`/payment?orderId=${submittedOrderId}&amount=${totalAmountWithVAT}`);
                       }}
                       className="bg-blue-600 hover:bg-blue-700 text-white"
                     >
