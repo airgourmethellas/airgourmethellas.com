@@ -198,7 +198,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteOrder(id: number): Promise<boolean> {
     const result = await db.delete(orders).where(eq(orders.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Order Items methods
@@ -255,7 +255,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteMenuItem(id: number): Promise<boolean> {
     const result = await db.delete(menuItems).where(eq(menuItems.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Activity Log methods
@@ -300,7 +300,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteAirport(id: number): Promise<boolean> {
     const result = await db.delete(airports).where(eq(airports.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Aircraft Type methods
@@ -332,7 +332,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteAircraftType(id: number): Promise<boolean> {
     const result = await db.delete(aircraftTypes).where(eq(aircraftTypes.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Inventory methods
@@ -364,7 +364,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteInventoryItem(id: number): Promise<boolean> {
     const result = await db.delete(inventoryItems).where(eq(inventoryItems.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Vendor methods
@@ -396,7 +396,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteVendor(id: number): Promise<boolean> {
     const result = await db.delete(vendors).where(eq(vendors.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Order Status History methods

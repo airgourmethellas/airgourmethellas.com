@@ -120,7 +120,7 @@ export async function sendInvoiceEmail(order: Order, invoicePDF: Buffer): Promis
     throw new Error('Email configuration missing');
   }
   
-  const transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransporter({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT || '587'),
     secure: parseInt(process.env.SMTP_PORT || '587') === 465,
