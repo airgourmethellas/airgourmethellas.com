@@ -1,3 +1,7 @@
+// Apply Railway compatibility fixes FIRST to prevent crashes
+import './railway-fix';
+import './vite-patch';
+
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
