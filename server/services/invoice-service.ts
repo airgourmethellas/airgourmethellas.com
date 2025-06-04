@@ -53,14 +53,17 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       doc.info.Title = `Air Gourmet Hellas Invoice #${order.id}`;
       doc.info.Author = 'Air Gourmet Hellas';
       
-      // Add logo if available
+      // Add logo if available with defensive checks
       try {
-        const logoPath = path.join(process.cwd(), 'public', 'AGLogo.png');
-        if (fs.existsSync(logoPath)) {
-          doc.image(logoPath, {
-            fit: [150, 100],
-            align: 'right'
-          });
+        const cwd = process.cwd();
+        if (cwd) {
+          const logoPath = path.join(cwd, 'public', 'AGLogo.png');
+          if (fs.existsSync(logoPath)) {
+            doc.image(logoPath, {
+              fit: [150, 100],
+              align: 'right'
+            });
+          }
         }
       } catch (error) {
         console.warn('Could not add logo to invoice', error);
