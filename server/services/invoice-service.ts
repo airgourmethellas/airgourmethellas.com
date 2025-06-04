@@ -83,10 +83,9 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       doc.fontSize(12).text('Flight Information', { underline: true });
       doc.fontSize(10)
         .text(`Aircraft Type: ${order.aircraftType || 'N/A'}`)
-        .text(`Tail Number: ${order.tailNumber || 'N/A'}`)
-        .text(`Date: ${new Date(order.departureDate || Date.now()).toLocaleDateString()}`)
-        .text(`Departure Time: ${order.departureTime || 'N/A'}`)
-        .text(`Departure Airport: ${order.departureAirport || 'N/A'}`) 
+        .text(`Date: ${new Date(order.deliveryTime || Date.now()).toLocaleDateString()}`)
+        .text(`Delivery Time: ${order.deliveryTime || 'N/A'}`)
+        .text(`Delivery Location: ${order.deliveryLocation || 'N/A'}`) 
         .text(`Arrival Airport: ${order.arrivalAirport || 'N/A'}`)
         .text(`Kitchen Location: ${order.kitchenLocation || 'N/A'}`);
       
@@ -150,7 +149,7 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
         subtotal += totalPrice;
         
         doc.fontSize(9)
-          .text(item.name || 'Unknown Item', doc.x, y, { width: columnWidths.item, align: 'left' })
+          .text('Menu Item', doc.x, y, { width: columnWidths.item, align: 'left' })
           .text(item.quantity?.toString() || '1', doc.x + columnWidths.item, y, { width: columnWidths.quantity, align: 'center' })
           .text(formatPriceWithSymbol(price), doc.x + columnWidths.item + columnWidths.quantity, y, { width: columnWidths.price, align: 'right' })
           .text(formatPriceWithSymbol(totalPrice), doc.x + columnWidths.item + columnWidths.quantity + columnWidths.price, y, { width: columnWidths.total, align: 'right' });
