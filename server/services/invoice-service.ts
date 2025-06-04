@@ -5,6 +5,7 @@ import path from 'path';
 import { Order, OrderItem } from '@shared/schema';
 import dotenv from 'dotenv';
 import { formatPriceWithSymbol } from '../utils/price-formatter';
+import { resolveProjectPath } from '../path-utils';
 
 // Load environment variables
 dotenv.config();
