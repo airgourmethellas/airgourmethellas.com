@@ -29,12 +29,7 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       const doc = new PDFDocument({ margin: 50 });
       
       // Set up file path with defensive checks
-      const cwd = process.cwd();
-      if (!cwd) {
-        throw new Error('Unable to determine current working directory');
-      }
-      
-      const invoiceDir = path.join(cwd, 'tmp');
+      const invoiceDir = resolveProjectPath('tmp');
       // Ensure directory exists
       if (!fs.existsSync(invoiceDir)) {
         fs.mkdirSync(invoiceDir, { recursive: true });
@@ -56,15 +51,12 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       
       // Add logo if available with defensive checks
       try {
-        const cwd = process.cwd();
-        if (cwd) {
-          const logoPath = path.join(cwd, 'public', 'AGLogo.png');
-          if (fs.existsSync(logoPath)) {
-            doc.image(logoPath, {
-              fit: [150, 100],
-              align: 'right'
-            });
-          }
+        const logoPath = resolveProjectPath('public', 'AGLogo.png');
+        if (fs.existsSync(logoPath)) {
+          doc.image(logoPath, {
+            fit: [150, 100],
+            align: 'right'
+          });
         }
       } catch (error) {
         console.warn('Could not add logo to invoice', error);

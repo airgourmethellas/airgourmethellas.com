@@ -8,6 +8,7 @@ import { createServer as createHttpServer } from "http";
 import { createServer as createHttpsServer } from "https";
 import { fileURLToPath } from "url";
 import cors from 'cors';
+import { config as buildConfig } from './build-config';
 
 // ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -46,12 +47,11 @@ app.use(helmet({
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Serve static files from client/public directory with defensive check
-const publicPath = path.join(__dirname, '..', 'client', 'public');
-if (fs.existsSync(publicPath)) {
-  app.use(express.static(publicPath));
+// Serve static files from client/public directory with build-safe path resolution
+if (fs.existsSync(buildConfig.paths.public)) {
+  app.use(express.static(buildConfig.paths.public));
 } else {
-  console.warn(`Public directory not found: ${publicPath}`);
+  console.warn(`Public directory not found: ${buildConfig.paths.public}`);
 }
 
 // Log static file requests for debugging
