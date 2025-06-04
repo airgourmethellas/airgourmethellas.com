@@ -9,7 +9,9 @@ import { createServer as createHttpsServer } from "https";
 import { fileURLToPath } from "url";
 import cors from 'cors';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// ES module equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Create Express app
 const app = express();
@@ -44,8 +46,13 @@ app.use(helmet({
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Serve static files from client/public directory
-app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
+// Serve static files from client/public directory with defensive check
+const publicPath = path.join(__dirname, '..', 'client', 'public');
+if (fs.existsSync(publicPath)) {
+  app.use(express.static(publicPath));
+} else {
+  console.warn(`Public directory not found: ${publicPath}`);
+}
 
 // Log static file requests for debugging
 app.use((req, res, next) => {

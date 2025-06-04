@@ -28,27 +28,38 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       // Create PDF document
       const doc = new PDFDocument();
       
-      // Create directory if it doesn't exist
-      const tmpDir = path.join(process.cwd(), 'tmp');
+      // Create directory if it doesn't exist with defensive checks
+      const cwd = process.cwd();
+      if (!cwd) {
+        throw new Error('Unable to determine current working directory');
+      }
+      
+      const tmpDir = path.join(cwd, 'tmp');
       if (!fs.existsSync(tmpDir)) {
         fs.mkdirSync(tmpDir, { recursive: true });
       }
       
-      // Set up file paths
+      // Set up file paths with validation
+      if (!order.id) {
+        throw new Error('Order ID is required for invoice generation');
+      }
       const filePath = path.join(tmpDir, `invoice-${order.id}.pdf`);
       const writeStream = fs.createWriteStream(filePath);
       
       // Pipe PDF to file
       doc.pipe(writeStream);
       
-      // Add logo if available
+      // Add logo if available with defensive checks
       try {
-        const logoPath = path.join(process.cwd(), 'public', 'AGLogo.png');
-        if (fs.existsSync(logoPath)) {
-          doc.image(logoPath, {
-            fit: [150, 100],
-            align: 'right'
-          });
+        const cwd = process.cwd();
+        if (cwd) {
+          const logoPath = path.join(cwd, 'public', 'AGLogo.png');
+          if (fs.existsSync(logoPath)) {
+            doc.image(logoPath, {
+              fit: [150, 100],
+              align: 'right'
+            });
+          }
         }
       } catch (error) {
         console.warn('Could not add logo to invoice', error);

@@ -27,13 +27,22 @@ export async function generateInvoice(order: Order, items: OrderItem[]): Promise
       // Create a PDF document
       const doc = new PDFDocument({ margin: 50 });
       
-      // Set up file path
-      const invoiceDir = path.join(process.cwd(), 'tmp');
+      // Set up file path with defensive checks
+      const cwd = process.cwd();
+      if (!cwd) {
+        throw new Error('Unable to determine current working directory');
+      }
+      
+      const invoiceDir = path.join(cwd, 'tmp');
       // Ensure directory exists
       if (!fs.existsSync(invoiceDir)) {
         fs.mkdirSync(invoiceDir, { recursive: true });
       }
       
+      // Validate order ID before using in path
+      if (!order.id) {
+        throw new Error('Order ID is required for invoice generation');
+      }
       const filePath = path.join(invoiceDir, `invoice-${order.id}.pdf`);
       const writeStream = fs.createWriteStream(filePath);
       
