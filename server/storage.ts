@@ -146,7 +146,7 @@ export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private orders: Map<number, Order>;
   private orderItems: Map<number, OrderItem[]>;
-  private orderTemplates: Map<number, OrderTemplate>;
+  // Removed orderTemplates - not used in current schema
   private menuItems: Map<number, MenuItem>;
   private activityLogs: ActivityLog[];
   private conciergeRequests: Map<number, ConciergeRequest>;
@@ -186,7 +186,7 @@ export class MemStorage implements IStorage {
     this.users = new Map();
     this.orders = new Map();
     this.orderItems = new Map();
-    this.orderTemplates = new Map();
+    // orderTemplates removed from schema
     this.menuItems = new Map();
     this.activityLogs = [];
     this.airports = new Map();
@@ -261,12 +261,7 @@ export class MemStorage implements IStorage {
   }
   
   async getUserByUsername(username: string): Promise<User | undefined> {
-    for (const user of this.users.values()) {
-      if (user.username === username) {
-        return user;
-      }
-    }
-    return undefined;
+    return Array.from(this.users.values()).find(user => user.username === username);
   }
   
   async createUser(insertUser: InsertUser): Promise<User> {
@@ -333,7 +328,6 @@ export class MemStorage implements IStorage {
       created: new Date(),
       totalPrice: orderData.totalPrice || 0,
       documents: orderData.documents || null,
-      specialInstructions: orderData.specialInstructions || null,
       dietaryRequirements: orderData.dietaryRequirements || null,
     };
     
@@ -377,41 +371,7 @@ export class MemStorage implements IStorage {
     return newOrderItem;
   }
   
-  async getOrderTemplates(userId: number): Promise<OrderTemplate[]> {
-    return Array.from(this.orderTemplates.values()).filter(template => template.userId === userId);
-  }
-  
-  async getOrderTemplate(id: number): Promise<OrderTemplate | undefined> {
-    return this.orderTemplates.get(id);
-  }
-  
-  async createOrderTemplate(template: InsertOrderTemplate): Promise<OrderTemplate> {
-    const id = ++this.templateCounter;
-    
-    const newTemplate: OrderTemplate = { 
-      ...template, 
-      id, 
-      created: new Date(),
-      lastUsed: null,
-      dietaryRequirements: template.dietaryRequirements || null
-    };
-    
-    this.orderTemplates.set(id, newTemplate);
-    return newTemplate;
-  }
-  
-  async updateOrderTemplate(id: number, templateData: Partial<OrderTemplate>): Promise<OrderTemplate | undefined> {
-    const template = await this.getOrderTemplate(id);
-    if (!template) return undefined;
-    
-    const updatedTemplate: OrderTemplate = { ...template, ...templateData };
-    this.orderTemplates.set(id, updatedTemplate);
-    return updatedTemplate;
-  }
-  
-  async deleteOrderTemplate(id: number): Promise<boolean> {
-    return this.orderTemplates.delete(id);
-  }
+  // Order template methods removed - not in current schema
   
   async getMenuItems(): Promise<MenuItem[]> {
     return Array.from(this.menuItems.values());
