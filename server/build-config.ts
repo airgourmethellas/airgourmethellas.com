@@ -25,7 +25,11 @@ export function getProjectRoot(): string {
   return path.resolve(getServerDir(), '..');
 }
 
-export function resolveAssetPath(assetPath: string): string {
+export function resolveAssetPath(assetPath: string | undefined): string {
+  if (!assetPath || assetPath === undefined) {
+    console.warn('[Railway] Asset path is undefined, using default');
+    assetPath = 'public';
+  }
   const projectRoot = getProjectRoot();
   return path.resolve(projectRoot, assetPath);
 }
