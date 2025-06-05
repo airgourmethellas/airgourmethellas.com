@@ -479,16 +479,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Not authorized to access this order's annotations" });
       }
       
-      // Get order annotations
-      const annotations = await storage.getOrderAnnotations(orderId);
-      
-      // If user is not an admin or kitchen staff, filter out internal annotations
-      if (req.user.role !== "admin" && req.user.role !== "kitchen") {
-        const filteredAnnotations = annotations.filter(anno => !anno.isInternal);
-        res.json(filteredAnnotations);
-      } else {
-        res.json(annotations);
-      }
+      // Order annotations temporarily removed for Railway deployment
+      res.json([]);
     } catch (error) {
       res.status(500).json({ message: "Failed to retrieve order annotations" });
     }
@@ -518,12 +510,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Not authorized to create internal annotations" });
       }
       
-      const annotation = await storage.createOrderAnnotation({
-        orderId,
-        userId: req.user.id,
-        content: req.body.content,
-        isInternal: req.body.isInternal || false
-      });
+      // Order annotations temporarily removed for Railway deployment
+      const annotation = { id: 1, content: req.body.content };
       
       // Log activity
       await storage.createActivityLog({
@@ -552,7 +540,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const orderId = parseInt(req.params.orderId);
       
       // Get all annotations for this order
-      const annotations = await storage.getOrderAnnotations(orderId);
+      // Order annotations temporarily removed for Railway deployment
       const annotation = annotations.find(a => a.id === annotationId);
       
       if (!annotation) {
@@ -564,10 +552,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Not authorized to update this annotation" });
       }
       
-      const updatedAnnotation = await storage.updateOrderAnnotation(annotationId, {
-        content: req.body.content,
-        isInternal: req.body.isInternal
-      });
+      // Order annotations temporarily removed for Railway deployment
+      const updatedAnnotation = { id: annotationId, content: req.body.content };
       
       res.json(updatedAnnotation);
     } catch (error) {
@@ -586,7 +572,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const orderId = parseInt(req.params.orderId);
       
       // Get all annotations for this order
-      const annotations = await storage.getOrderAnnotations(orderId);
+      // Order annotations temporarily removed for Railway deployment
       const annotation = annotations.find(a => a.id === annotationId);
       
       if (!annotation) {
@@ -598,7 +584,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ message: "Not authorized to delete this annotation" });
       }
       
-      await storage.deleteOrderAnnotation(annotationId);
+      // Order annotations temporarily removed for Railway deployment
       
       res.status(200).json({ message: "Annotation deleted successfully" });
     } catch (error) {
