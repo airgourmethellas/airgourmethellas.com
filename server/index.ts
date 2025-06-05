@@ -1,5 +1,3 @@
-// Railway compatibility fixes applied directly in code
-import './railway-deployment-fix';
 
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
