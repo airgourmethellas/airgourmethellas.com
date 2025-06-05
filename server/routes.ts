@@ -22,7 +22,7 @@ import { setupProcessPaymentRoute } from "./routes/process-payment-route";
 import { registerInvoiceRoutes } from "./routes/invoice-routes";
 import orderRoutes from "./routes/order-routes";
 import chatRoutes from "./routes/chat-routes";
-import { registerConciergeRoutes } from "./routes/concierge-routes";
+// Concierge routes temporarily removed for Railway deployment
 import { registerPaymentRoutes } from "./routes/payment-routes";
 import { registerOrderStatusRoutes } from "./routes/order-status-routes";
 

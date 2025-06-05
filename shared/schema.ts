@@ -331,35 +331,7 @@ export const insertIntegrationSettingSchema = createInsertSchema(integrationSett
 export type IntegrationSetting = typeof integrationSettings.$inferSelect;
 export type InsertIntegrationSetting = z.infer<typeof insertIntegrationSettingSchema>;
 
-// Concierge Service Requests
-export const conciergeRequests = pgTable("concierge_requests", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
-  requestType: text("request_type").notNull(),
-  description: text("description").notNull(),
-  deliveryDate: text("delivery_date").notNull(),
-  deliveryTime: text("delivery_time").notNull(),
-  deliveryLocation: text("delivery_location").notNull(),
-  specialInstructions: text("special_instructions"),
-  urgentRequest: boolean("urgent_request").default(false).notNull(),
-  status: text("status").default("pending").notNull(), // 'pending', 'reviewed', 'quoted', 'confirmed', 'completed', 'cancelled'
-  price: real("price"), // Set by admin
-  priceNotes: text("price_notes"), // Admin notes about pricing
-  created: timestamp("created").defaultNow().notNull(),
-  updated: timestamp("updated").defaultNow().notNull(),
-});
-
-export const insertConciergeRequestSchema = createInsertSchema(conciergeRequests).omit({
-  id: true,
-  status: true,
-  price: true,
-  priceNotes: true,
-  created: true,
-  updated: true,
-});
-
-export type ConciergeRequest = typeof conciergeRequests.$inferSelect;
-export type InsertConciergeRequest = z.infer<typeof insertConciergeRequestSchema>;
+// Concierge functionality temporarily removed for Railway deployment
 
 // Order Status History table - for tracking detailed status changes with timestamps
 export const orderStatusHistory = pgTable("order_status_history", {

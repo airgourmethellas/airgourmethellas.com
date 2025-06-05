@@ -18,7 +18,7 @@ import {
   purchaseOrders, PurchaseOrder, InsertPurchaseOrder,
   purchaseOrderItems, PurchaseOrderItem, InsertPurchaseOrderItem,
   orderAnnotations, OrderAnnotation, InsertOrderAnnotation,
-  conciergeRequests, ConciergeRequest, InsertConciergeRequest,
+
   orderStatusHistory, OrderStatusHistory, InsertOrderStatusHistory, OrderStatus
 } from "@shared/schema";
 import createMemoryStore from "memorystore";
@@ -98,12 +98,7 @@ export interface IStorage {
   createOrderStatusHistory(history: InsertOrderStatusHistory): Promise<OrderStatusHistory>;
   updateOrderStatus(orderId: number, status: OrderStatus): Promise<Order>;
 
-  // Concierge Request methods
-  getAllConciergeRequests(): Promise<ConciergeRequest[]>;
-  getConciergeRequestsByUser(userId: number): Promise<ConciergeRequest[]>;
-  getConciergeRequest(id: number): Promise<ConciergeRequest | undefined>;
-  createConciergeRequest(request: InsertConciergeRequest): Promise<ConciergeRequest>;
-  updateConciergeRequest(id: number, data: Partial<ConciergeRequest>): Promise<ConciergeRequest | undefined>;
+  // Concierge functionality temporarily removed for Railway deployment
 
   // Session store
   sessionStore: session.Store;
@@ -175,32 +170,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createOrder(orderData: InsertOrder): Promise<Order> {
-    // Railway-compatible order creation with proper type conversion
-    const railwayOrderData = {
-      userId: orderData.userId,
-      deliveryTime: orderData.deliveryTime,
-      deliveryLocation: orderData.deliveryLocation,
-      aircraftType: orderData.aircraftType,
-      handlerCompany: orderData.handlerCompany,
-      departureDate: orderData.departureDate,
-      departureTime: orderData.departureTime,
-      departureAirport: orderData.departureAirport,
-      passengerCount: orderData.passengerCount,
-      crewCount: orderData.crewCount,
-      flightDuration: orderData.flightDuration,
-      cateringType: orderData.cateringType,
-      specialNotes: orderData.specialNotes || null,
-      specialDietaryRequirements: orderData.specialDietaryRequirements || null,
-      paymentMethod: orderData.paymentMethod || null,
-      totalPrice: orderData.totalPrice || 0,
-      arrivalAirport: orderData.arrivalAirport || null,
-      dietaryRequirements: orderData.dietaryRequirements || null,
-      documents: orderData.documents || null
-    };
-
     const [order] = await db
       .insert(orders)
-      .values(railwayOrderData)
+      .values(orderData)
       .returning();
     return order;
   }
@@ -458,42 +430,7 @@ export class DatabaseStorage implements IStorage {
     return updatedOrder;
   }
 
-  // Concierge Request methods
-  async getAllConciergeRequests(): Promise<ConciergeRequest[]> {
-    return await db.select().from(conciergeRequests).orderBy(desc(conciergeRequests.created));
-  }
-  
-  async getConciergeRequestsByUser(userId: number): Promise<ConciergeRequest[]> {
-    return await db.select()
-      .from(conciergeRequests)
-      .where(eq(conciergeRequests.userId, userId))
-      .orderBy(desc(conciergeRequests.created));
-  }
-  
-  async getConciergeRequest(id: number): Promise<ConciergeRequest | undefined> {
-    const [request] = await db.select()
-      .from(conciergeRequests)
-      .where(eq(conciergeRequests.id, id));
-    return request;
-  }
-  
-  async createConciergeRequest(request: InsertConciergeRequest): Promise<ConciergeRequest> {
-    const [newRequest] = await db.insert(conciergeRequests)
-      .values(request)
-      .returning();
-    return newRequest;
-  }
-  
-  async updateConciergeRequest(id: number, data: Partial<ConciergeRequest>): Promise<ConciergeRequest | undefined> {
-    const [updatedRequest] = await db.update(conciergeRequests)
-      .set({
-        ...data,
-        updated: new Date()
-      })
-      .where(eq(conciergeRequests.id, id))
-      .returning();
-    return updatedRequest;
-  }
+  // Concierge functionality temporarily removed for Railway deployment
 }
 
 export const storage = new DatabaseStorage();
