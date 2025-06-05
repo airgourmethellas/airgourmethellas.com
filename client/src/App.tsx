@@ -33,7 +33,7 @@ import NewOrder from "@/pages/client/new-order";
 import OrderHistory from "@/pages/client/order-history";
 import OrderDetail from "@/pages/client/order-detail";
 import Account from "@/pages/client/account";
-import ConciergeServices from "@/pages/client/concierge-services";
+
 import AdminLayout from "@/pages/admin/admin-layout";
 import Dashboard from "@/pages/admin/dashboard";
 import MenuEditor from "@/pages/admin/menu-editor";
@@ -201,11 +201,7 @@ function Router() {
           <NewOrder />
         </ClientLayout>
       )} />
-      <ProtectedRoute path="/concierge" component={() => (
-        <ClientLayout>
-          <ConciergeServices />
-        </ClientLayout>
-      )} />
+
       <ProtectedRoute path="/order-history" component={() => (
         <ClientLayout>
           <OrderHistory />

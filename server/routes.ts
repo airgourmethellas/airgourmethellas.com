@@ -58,8 +58,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register invoice routes
   registerInvoiceRoutes(app);
   
-  // Register concierge routes
-  registerConciergeRoutes(app);
+  // Concierge routes temporarily removed for Railway deployment
   
   // Register order status routes
   registerOrderStatusRoutes(app);
@@ -964,8 +963,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Mount order routes
   app.use('/api', orderRoutes);
   
-  // Register concierge services routes
-  registerConciergeRoutes(app);
+  // Concierge routes temporarily removed for Railway deployment
   
   // Register invoice routes
   registerInvoiceRoutes(app);
